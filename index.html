@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trục bị cắt – Biểu đồ</title>
+<meta name="description" content="Bài học tương tác lớp 8: chọn đúng loại biểu đồ, vẽ trên Excel và nhận ra khi một biểu đồ đánh lừa người xem.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--bg:#f5f7fb;--panel:#fff;--text:#172033;--muted:#667085;--line:#e4e7ec;--blue:#315efb;--blue2:#eef3ff;--green:#0f9d7a;--green2:#eaf9f5;--amber:#b54708;--amber2:#fff7ed;--red:#b42318;--shadow:0 14px 40px rgba(16,24,40,.07);--r:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#eef3ff 0,#fafbff 290px,var(--bg) 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans",sans-serif}
+button,input,select{font:inherit}
+.wrap{width:min(1060px,92vw);margin:auto}
+.top{position:sticky;top:0;z-index:30;background:rgba(245,247,251,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topin{padding:10px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900}
+.logo{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),#728dff)}
+.pbar{height:8px;background:#e7eaf1;border-radius:99px;overflow:hidden;margin-top:9px}
+.pfill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:.3s}
+.pmeta{display:flex;justify-content:space-between;gap:10px;margin-top:5px;color:var(--muted);font-size:12px}
+.hero{padding:28px 0 8px}
+.eyebrow{display:inline-block;padding:7px 11px;border-radius:99px;background:var(--blue2);color:#2749c7;border:1px solid #d7e0ff;font-size:13px;font-weight:850}
+h1{font-size:clamp(34px,5vw,52px);line-height:1.08;letter-spacing:-.04em;margin:14px 0 8px}
+.lead{font-size:17px;line-height:1.6;color:#475467;max-width:800px}
+.section{display:none;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;margin:18px 0}
+.section.active{display:block;animation:in .22s ease}
+@keyframes in{from{opacity:.4;transform:translateY(7px)}to{opacity:1;transform:none}}
+.head{display:flex;gap:13px;align-items:flex-start;margin-bottom:18px}
+.badge{width:44px;height:44px;display:grid;place-items:center;flex:0 0 auto;border-radius:14px;background:var(--blue2);color:var(--blue);font-weight:950}
+.section h2{font-size:27px;letter-spacing:-.02em;margin:0}
+.section .sub{margin:5px 0 0;color:#667085;line-height:1.55}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:17px;padding:17px;background:#fff}
+.card h3{font-size:17px;margin:0 0 7px}
+.card p{font-size:14px;margin:0;color:var(--muted);line-height:1.6}
+.callout{border:1px solid #c9eadf;border-radius:15px;padding:14px 16px;background:#edf9f5;color:#175c49;line-height:1.6;margin-top:14px}
+.callout.warn{background:var(--amber2);border-color:#fed7aa;color:#8a3c05}
+.callout.blue{background:var(--blue2);border-color:#d7e0ff;color:#23408f}
+.formGrid{display:grid;grid-template-columns:1fr 240px;gap:14px;margin:18px 0}
+label{display:block;font-size:13px;font-weight:850;color:#344054;margin-bottom:7px}
+input,select{width:100%;border:1px solid #cfd5df;border-radius:12px;padding:12px 13px;background:#fff;outline:0}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(49,94,251,.1)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:0;border-radius:13px;padding:12px 17px;font-weight:850;cursor:pointer}
+.btnPrimary{background:var(--blue);color:#fff}
+.btnSecondary{background:#eef2f7;color:#344054}
+.btnGreen{background:var(--green);color:#fff}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.tiny{font-size:12px;color:var(--muted)}
+.hidden{display:none!important}
+.fx{display:inline-block;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;background:#f2f4f8;border:1px solid #e2e6ee;border-radius:8px;padding:2px 7px;font-size:13px;font-weight:700}
+.syntax{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px;font-size:15px;font-weight:700;overflow-x:auto}
+.syntax .rng{color:#1e7b45}
+.syntax .cond{color:#b42318}
+.syntax .val{color:#178b8b}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:9px;font-size:12.5px;color:var(--muted)}
+.legend b{font-weight:850}
+.activity{margin-top:18px;border:1px solid var(--line);background:#fbfcff;border-radius:17px;padding:16px}
+.activity h3{margin:0 0 4px;font-size:17px}
+.activity .ahint{margin:0 0 12px;font-size:13px;color:var(--muted);line-height:1.55}
+.feedback{min-height:20px;margin-top:10px;font-size:14px;font-weight:800}
+.ok{color:#067647}
+.bad{color:var(--red)}
+.matchGrid{display:grid;grid-template-columns:minmax(190px,1fr) 1fr;gap:10px;align-items:center}
+.matchGrid .term{font-weight:850;font-size:14px}
+.taskGrid{display:grid;gap:12px}
+.task{display:grid;grid-template-columns:1fr 190px;gap:12px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px}
+.task .q{font-size:14px;line-height:1.55}
+.task .q b{display:block;margin-bottom:3px}
+.task input{text-align:right;font-family:ui-monospace,Consolas,monospace;font-weight:800}
+.task input.good{border-color:var(--green);box-shadow:0 0 0 4px rgba(15,157,122,.12)}
+.task input.wrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
+.task.miss{border-color:#fecdca;background:#fffbfa}
+.hintFx{display:none;margin-top:8px;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;background:#fff7ed;border:1px solid #fed7aa;color:#8a3c05;border-radius:9px;padding:5px 10px;font-size:12.5px;font-weight:800}
+.task.miss .hintFx{display:inline-block}
+.hintFx::before{content:"Gợi ý: ";font-family:inherit}
+select.selWrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
+.hintBtn{background:none;border:0;color:var(--blue);font-size:12px;font-weight:850;cursor:pointer;padding:6px 0}
+.hintBox{font-size:13px;color:#475467;background:#f8fafc;border-radius:11px;padding:10px 12px;margin-top:8px;line-height:1.55}
+.dataWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;margin-top:14px}
+.dataTable{width:100%;border-collapse:collapse;min-width:560px;font-size:13.5px}
+.dataTable th,.dataTable td{padding:10px 12px;border-bottom:1px solid #eef0f3;text-align:right}
+.dataTable th:first-child,.dataTable td:first-child{text-align:left}
+.dataTable th{background:#f8fafc;font-size:12.5px;color:#475467}
+.dataTable tr:last-child td{border-bottom:0}
+.hlRow{background:#effcf6}
+.hlSmall{background:#fff1bd;font-weight:900}
+.qOpt{display:block;width:100%;text-align:left;border:1px solid #cfd5df;background:#fff;border-radius:13px;padding:12px 14px;margin-bottom:9px;cursor:pointer;font-size:14px;font-weight:700}
+.qOpt.selected{border-color:var(--blue);background:var(--blue2)}
+.qOpt.right{border-color:var(--green);background:var(--green2)}
+.qOpt.wrongPick{border-color:var(--red);background:#fef3f2}
+.quizHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.qnum{font-weight:900;color:var(--blue)}
+.qtext{font-size:18px;font-weight:850;line-height:1.45;margin:0 0 14px}
+.answerNote{margin-top:7px;font-weight:700;color:#475467;font-size:13px}
+.score{font-size:46px;font-weight:950;text-align:center;margin:16px 0;color:var(--green)}
+.review{display:grid;gap:9px;margin:14px 0}
+.reviewItem{border:1px solid var(--line);border-radius:13px;padding:11px 13px;font-size:13px;line-height:1.55}
+.reviewItem.good{background:var(--green2);border-color:#c9eadf}
+.reviewItem.miss{background:#fef3f2;border-color:#fecdca}
+.reviewItem strong{display:block;margin-bottom:3px}
+.cert{margin-top:16px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cert canvas{width:100%;display:block}
+.shot{display:block;width:100%;max-width:820px;margin:14px auto 0;border:1px solid var(--line);border-radius:16px}
+footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:760px){.grid2,.grid3,.formGrid,.matchGrid,.task{grid-template-columns:1fr}.section{padding:20px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap topin">
+  <div class="brand"><div class="logo">▦</div><div>Trục bị cắt · Biểu đồ</div></div>
+  <div class="pbar"><div class="pfill" id="pfill"></div></div>
+  <div class="pmeta"><span id="plabel">Bắt đầu</span><span id="miniStudent">Chưa nhập thông tin</span></div>
+</div></div>
+
+<main class="wrap">
+<section class="hero">
+  <span class="eyebrow">TIN HỌC 8 · BÀI 4</span>
+  <h1>Trục bị cắt</h1>
+  <p class="lead">5 chặng thử thách: chọn đúng loại biểu đồ, vẽ trên Excel — rồi tự tay tạo ra một biểu đồ đánh lừa người xem để lần sau nhận ra nó.</p>
+</section>
+
+<!-- ============ BẮT ĐẦU ============ -->
+<section class="section active" id="step0">
+  <div class="head"><div class="badge">0</div><div><h2>Bắt đầu</h2><p class="sub">Nhập thông tin để hệ thống ghi nhận minh chứng hoàn thành.</p></div></div>
+
+  <div class="callout blue">
+    <strong>Chuẩn bị</strong><br>
+    Vẫn dùng file <span class="fx">LSTS_KhaoSat_K8_2026_AnDanh_Cleaned.xlsx</span>, sheet <span class="fx">Clean_Data</span>,
+    vùng dữ liệu hàng 3 → hàng 300.<br>
+    Bài này em <strong>vẽ biểu đồ</strong> từ chính những bảng số đã tính ở Bài 3. Nếu chưa lưu bảng số đó,
+    em tính lại nhanh bằng các hàm có điều kiện đã học.
+  </div>
+
+  <div class="formGrid">
+    <div><label for="studentName">Họ và tên</label><input id="studentName" autocomplete="name" placeholder="Ví dụ: Nguyễn Văn An"></div>
+    <div><label for="studentClass">Lớp</label><select id="studentClass"><option value="">Chọn lớp</option><option>8A1</option><option>8A2</option><option>8A3</option><option>8A4</option><option>8A5</option><option>8A6</option><option>8A7</option><option>8A8</option><option>8A9</option><option>8A10</option></select></div>
+  </div>
+  <div id="startError" class="feedback"></div>
+  <div class="btnrow"><button class="btn btnPrimary" id="startBtn">Bắt đầu →</button></div>
+</section>
+
+<!-- ============ CHẶNG 1 ============ -->
+<section class="section" id="step1">
+  <div class="head"><div class="badge">1</div><div><h2>Chọn đúng loại biểu đồ</h2><p class="sub">Chọn theo câu hỏi muốn trả lời, không chọn theo cái nào nhìn đẹp hơn.</p></div></div>
+
+  <div class="callout blue">Bốn câu hỏi dưới đây đều trả lời được từ bộ khảo sát khối 8. Mỗi câu hợp với một loại biểu đồ khác nhau.<br>Chặng này chưa cần mở Excel — chỉ cần suy luận.</div>
+
+  <div class="activity">
+    <h3>Thử thách 1</h3>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">So sánh điểm TB lớp 7 của 5 nhóm phương tiện đến trường</div>
+      <select id="why1a" data-key="cot"><option value="">Chọn...</option><option value="cot">Biểu đồ cột</option><option value="tron">Biểu đồ tròn</option><option value="phanphoi">Cột phân phối</option><option value="phantan">Biểu đồ phân tán</option><option value="duong">Biểu đồ đường</option></select>
+
+      <div class="term">Bao nhiêu phần trăm cả khối chọn TikTok là mạng xã hội chính</div>
+      <select id="why1b" data-key="tron"><option value="">Chọn...</option><option value="cot">Biểu đồ cột</option><option value="tron">Biểu đồ tròn</option><option value="phanphoi">Cột phân phối</option><option value="phantan">Biểu đồ phân tán</option><option value="duong">Biểu đồ đường</option></select>
+
+      <div class="term">Giờ ngủ của 293 bạn trải ra như thế nào, đông nhất ở khoảng nào</div>
+      <select id="why1c" data-key="phanphoi"><option value="">Chọn...</option><option value="cot">Biểu đồ cột</option><option value="tron">Biểu đồ tròn</option><option value="phanphoi">Cột phân phối</option><option value="phantan">Biểu đồ phân tán</option><option value="duong">Biểu đồ đường</option></select>
+
+      <div class="term">Giờ dùng thiết bị và điểm số có đi cùng nhau không</div>
+      <select id="why1d" data-key="phantan"><option value="">Chọn...</option><option value="cot">Biểu đồ cột</option><option value="tron">Biểu đồ tròn</option><option value="phanphoi">Cột phân phối</option><option value="phantan">Biểu đồ phân tán</option><option value="duong">Biểu đồ đường</option></select>
+
+      <div class="term">Vì sao cả bài hôm nay không dùng biểu đồ đường?</div>
+      <select id="why1e" data-key="b"><option value="">Chọn...</option><option value="a">Vì biểu đồ đường khó vẽ hơn các loại khác</option><option value="b">Vì bộ dữ liệu không có cột nào mang thứ tự thời gian</option><option value="c">Vì Excel không vẽ được đường cho dữ liệu chữ</option><option value="d">Vì biểu đồ đường luôn kém chính xác hơn biểu đồ cột</option></select>
+
+    </div>
+    <button class="hintBtn" data-hint="hint1">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint1">Xuất phát luôn là câu hỏi: đang so sánh các nhóm, đang xét một phần của tổng thể, đang xem các giá trị trải ra, hay đang xét quan hệ giữa hai biến số?</div>
+    <div class="feedback" id="fb1"></div>
+    <div class="btnrow"><button class="btn btnPrimary" id="action1">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 2 ============ -->
+<section class="section" id="step2">
+  <div class="head"><div class="badge">2</div><div><h2>Biểu đồ cột và cái bẫy trục</h2><p class="sub">Chặng quan trọng nhất của cả bài.</p></div></div>
+
+  <div class="callout blue">Vẽ biểu đồ cột <strong>điểm trung bình lớp 7 theo phương tiện đến trường</strong> cho 5 nhóm. Bảng số em đã tính ở Bài 3; nếu chưa có thì tính lại bằng hàm trung bình có điều kiện.<br>Vẽ xong, đọc ba con số dưới đây từ chính biểu đồ của em.</div>
+
+  <div class="callout warn">Sau khi trả lời xong ba ô số, làm tiếp: bấm chuột phải vào <strong>trục đứng</strong> → Format Axis → đổi ô <strong>Minimum</strong> từ 0 thành 7, rồi nhìn kỹ biểu đồ trước khi trả lời hai câu cuối.</div>
+
+  <div class="activity">
+    <h3>Thử thách 2</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <div class="taskGrid" id="task2">
+      <div class="task"><div class="q"><b>Giá trị của cột cao nhất</b><span class="hintFx">=AVERAGEIF(I3:I300;"Đi bộ";H3:H300)</span></div><input data-ans="7.82" data-tol="0.04" placeholder="ví dụ: 7.82"></div>
+      <div class="task"><div class="q"><b>Giá trị của cột thấp nhất</b><span class="hintFx">=AVERAGEIF(I3:I300;"Xe buýt trường";H3:H300)</span></div><input data-ans="7.14" data-tol="0.04" placeholder="ví dụ: 7.14"></div>
+      <div class="task"><div class="q"><b>Cột cao nhất hơn cột thấp nhất bao nhiêu điểm</b><span class="hintFx">Lấy giá trị cột cao nhất trừ giá trị cột thấp nhất</span></div><input data-ans="0.68" data-tol="0.04" placeholder="ví dụ: 0.68"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Sau khi đổi Minimum thành 7, điều gì đã thay đổi?</div>
+      <select id="why2a" data-key="c"><option value="">Chọn...</option><option value="a">Điểm trung bình của các nhóm đã thay đổi</option><option value="b">Excel đã tính lại và ra kết quả khác</option><option value="c">Không con số nào đổi — chỉ có hình dạng biểu đồ trông khác hẳn</option><option value="d">Số bạn trong mỗi nhóm đã thay đổi</option></select>
+
+      <div class="term">Vậy khi nào cắt trục là chấp nhận được?</div>
+      <select id="why2b" data-key="b"><option value="">Chọn...</option><option value="a">Không bao giờ — cắt trục luôn là gian dối</option><option value="b">Khi khác biệt nhỏ nhưng quan trọng, và có ghi rõ cho người xem biết</option><option value="c">Bất cứ khi nào muốn biểu đồ trông đẹp hơn</option><option value="d">Khi người xem là học sinh chứ không phải người lớn</option></select>
+
+    </div>
+    <button class="hintBtn" data-hint="hint2">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint2">Muốn đọc giá trị từng cột cho dễ: Chart Elements → Data Labels để hiện số ngay trên đầu mỗi cột.</div>
+    <div class="feedback" id="fb2"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back2">← Chặng 1</button><button class="btn btnPrimary" id="action2">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 3 ============ -->
+<section class="section" id="step3">
+  <div class="head"><div class="badge">3</div><div><h2>Biểu đồ tròn và giới hạn của nó</h2><p class="sub">Loại biểu đồ bị dùng sai nhiều nhất.</p></div></div>
+
+  <div class="callout blue">Vẽ biểu đồ tròn cho cột <strong>Mạng xã hội dùng nhiều nhất</strong>, bật nhãn phần trăm, rồi đọc số từ biểu đồ của em.<br>Bật nhãn: Chart Elements → Data Labels → More Options → Percentage.</div>
+
+  <div class="activity">
+    <h3>Thử thách 3</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <div class="taskGrid" id="task3">
+      <div class="task"><div class="q"><b>Có bao nhiêu nhóm khác nhau trong cột Mạng xã hội</b><span class="hintFx">Đếm số lát trên biểu đồ tròn của em</span></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn TikTok</b><span class="hintFx">Số bạn chọn TikTok chia cho tổng số bạn trả lời câu hỏi đó</span></div><input data-ans="33.6" data-tol="0.6" data-ans2="0.336" data-tol2="0.006" placeholder="ví dụ: 33.6"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn Không dùng</b><span class="hintFx">Cùng cách tính, đổi điều kiện thành "Không dùng"</span></div><input data-ans="5.7" data-tol="0.4" data-ans2="0.057" data-tol2="0.004" placeholder="ví dụ: 5.7"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Nhìn biểu đồ tròn vừa vẽ, lát Zalo và lát Instagram — lát nào lớn hơn?</div>
+      <select id="why3a" data-key="d"><option value="">Chọn...</option><option value="a">Zalo lớn hơn hẳn, nhìn là thấy ngay</option><option value="b">Instagram lớn hơn hẳn, nhìn là thấy ngay</option><option value="c">Hai lát bằng nhau đúng bằng nhau</option><option value="d">Rất khó nhìn ra vì hai lát gần bằng nhau — phải đọc số mới biết</option></select>
+
+      <div class="term">Vậy khi nào nên dùng biểu đồ tròn?</div>
+      <select id="why3b" data-key="a"><option value="">Chọn...</option><option value="a">Khi các phần cộng lại thành một tổng thể, ít nhóm và chênh lệch rõ</option><option value="b">Bất cứ khi nào dữ liệu là dạng chữ</option><option value="c">Khi có càng nhiều nhóm càng tốt để biểu đồ nhiều màu</option><option value="d">Khi muốn so sánh hai bộ dữ liệu khác nhau</option></select>
+
+    </div>
+    <button class="hintBtn" data-hint="hint3">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint3">Tổng số bạn trả lời câu hỏi mạng xã hội không phải là 300 — hãy đếm bằng hàm đếm ô có nội dung.</div>
+    <div class="feedback" id="fb3"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back3">← Chặng 2</button><button class="btn btnPrimary" id="action3">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 4 ============ -->
+<section class="section" id="step4">
+  <div class="head"><div class="badge">4</div><div><h2>Phân phối và phân tán</h2><p class="sub">Hai biểu đồ cho em nhìn thấy điều đã tính bằng số ở Bài 2 và Bài 3.</p></div></div>
+
+  <div class="callout blue"><strong>Phần A — cột phân phối.</strong> Chia cột Giờ ngủ thành 6 khoảng rồi đếm số bạn trong mỗi khoảng, sau đó vẽ biểu đồ cột từ bảng đếm đó.<br>Các khoảng: dưới 5 · 5 đến dưới 6 · 6 đến dưới 7 · 7 đến dưới 8 · 8 đến dưới 9 · từ 9 trở lên.</div>
+
+  <div class="callout warn"><strong>Phần B — phân tán.</strong> Vẽ biểu đồ phân tán giữa cột Giờ dùng thiết bị và cột Điểm TB lớp 7. Giữ phím Ctrl để chọn hai cột không nằm cạnh nhau.</div>
+
+  <div class="activity">
+    <h3>Thử thách 4</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <div class="taskGrid" id="task4">
+      <div class="task"><div class="q"><b>Khoảng 7 đến dưới 8 giờ có bao nhiêu bạn</b><span class="hintFx">=COUNTIFS(B3:B300;">=7";B3:B300;"<8")</span></div><input data-ans="112" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Khoảng dưới 5 giờ có bao nhiêu bạn</b><span class="hintFx">=COUNTIF(B3:B300;"<5")</span></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Khoảng từ 9 giờ trở lên có bao nhiêu bạn</b><span class="hintFx">=COUNTIF(B3:B300;">=9")</span></div><input data-ans="10" data-tol="0" placeholder="kết quả"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Biểu đồ cột phân phối của em có hình dạng thế nào?</div>
+      <select id="why4a" data-key="a"><option value="">Chọn...</option><option value="a">Cao ở giữa, thấp dần về hai đầu — hình quả chuông</option><option value="b">Cao dần đều từ trái sang phải</option><option value="c">Thấp ở giữa, cao ở hai đầu</option><option value="d">Sáu cột cao bằng nhau</option></select>
+
+      <div class="term">Đám mây chấm ở biểu đồ phân tán nghiêng về phía nào?</div>
+      <select id="why4b" data-key="b"><option value="">Chọn...</option><option value="a">Nghiêng lên: thiết bị càng nhiều thì điểm càng cao</option><option value="b">Nghiêng xuống: thiết bị càng nhiều thì điểm có xu hướng càng thấp</option><option value="c">Không nghiêng, các chấm rải đều khắp nơi</option><option value="d">Các chấm nằm gọn trên một đường thẳng</option></select>
+
+      <div class="term">Biểu đồ phân tán đó cho em kết luận được điều gì?</div>
+      <select id="why4c" data-key="c"><option value="">Chọn...</option><option value="a">Dùng thiết bị nhiều gây ra điểm thấp</option><option value="b">Điểm thấp khiến học sinh dùng thiết bị nhiều hơn</option><option value="c">Hai biến có xu hướng đi ngược chiều nhau, nhưng chưa cho biết nguyên nhân</option><option value="d">Hai biến hoàn toàn không liên quan gì đến nhau</option></select>
+
+    </div>
+    <button class="hintBtn" data-hint="hint4">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint4">Chấm tản rộng là chuyện bình thường — xu hướng nói về cả đám đông chứ không nói về từng bạn một.</div>
+    <div class="feedback" id="fb4"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back4">← Chặng 3</button><button class="btn btnPrimary" id="action4">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 5 ============ -->
+<section class="section" id="step5">
+  <div class="head"><div class="badge">5</div><div><h2>Biểu đồ trung thực</h2><p class="sub">Nhìn một biểu đồ lạ và chỉ ra nó có đang đánh lừa mình không.</p></div></div>
+
+  <div class="callout blue">Một bạn vẽ biểu đồ dưới đây từ chính bộ dữ liệu khối 8. Dữ liệu không sai một con số nào.<br>Hãy rà theo <strong>năm thành phần bắt buộc</strong> của một biểu đồ đọc được, rồi xét đến <strong>ba thủ thuật</strong> làm biểu đồ đánh lừa người xem.</div>
+
+  <img class="shot" src="bieu-do-hong.png" alt="Một biểu đồ có nhiều lỗi cần tìm ra">
+
+  <div class="activity">
+    <h3>Thử thách 5</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <div class="taskGrid" id="task5">
+      <div class="task"><div class="q"><b>Có bao nhiêu trong năm thành phần bắt buộc KHÔNG đạt yêu cầu</b><span class="hintFx">Rà lần lượt: tiêu đề · nhãn trục ngang · nhãn trục đứng kèm đơn vị · cỡ mẫu n · nguồn dữ liệu</span></div><input data-ans="5" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Biểu đồ đó đã dùng bao nhiêu thủ thuật đánh lừa</b><span class="hintFx">Ba thủ thuật: cắt trục không ghi chú · bỏ bớt nhóm · hiệu ứng 3D</span></div><input data-ans="3" data-tol="0" placeholder="kết quả"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Vì sao chữ “Biểu đồ” ở trên cùng vẫn không tính là có tiêu đề?</div>
+      <select id="why5a" data-key="c"><option value="">Chọn...</option><option value="a">Vì chữ đó quá nhỏ so với biểu đồ</option><option value="b">Vì tiêu đề bắt buộc phải viết in hoa toàn bộ</option><option value="c">Vì nó không cho biết biểu đồ đang trả lời câu hỏi gì</option><option value="d">Vì tiêu đề phải nằm ở phía dưới biểu đồ</option></select>
+
+      <div class="term">Biểu đồ đó chỉ hiện 3 nhóm trong khi bộ dữ liệu có 5 nhóm. Đó là lỗi gì?</div>
+      <select id="why5b" data-key="b"><option value="">Chọn...</option><option value="a">Không phải lỗi, vẽ ít nhóm cho gọn cũng được</option><option value="b">Bỏ bớt nhóm — giữ lại nhóm ủng hộ điều mình muốn nói, im lặng về phần còn lại</option><option value="c">Lỗi kỹ thuật của Excel khi vẽ biểu đồ</option><option value="d">Lỗi cắt trục</option></select>
+
+      <div class="term">Điều nguy hiểm nhất của ba thủ thuật này là gì?</div>
+      <select id="why5c" data-key="a"><option value="">Chọn...</option><option value="a">Chúng không sửa một con số nào trong bảng dữ liệu nên rất khó bị bắt lỗi</option><option value="b">Chúng làm Excel chạy chậm hơn bình thường</option><option value="c">Chúng khiến biểu đồ không in ra giấy được</option><option value="d">Chúng chỉ đánh lừa được người chưa học Excel</option></select>
+
+    </div>
+    <button class="hintBtn" data-hint="hint5">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint5">Đếm cho kỹ: một tiêu đề không nói gì thì vẫn tính là chưa đạt.</div>
+    <div class="feedback" id="fb5"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back5">← Chặng 4</button><button class="btn btnPrimary" id="action5">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ KIỂM TRA CUỐI ============ -->
+<section class="section" id="step6">
+  <div class="head"><div class="badge">✓</div><div><h2>Kiểm tra cuối bài</h2><p class="sub">10 câu ngẫu nhiên từ cả 5 chặng. Đạt 8/10 để nhận minh chứng hoàn thành.</p></div></div>
+  <div id="quizArea">
+    <div class="quizHead"><span class="qnum" id="qnum">Câu 1/10</span><span class="tiny">Mỗi câu chỉ trả lời một lần</span></div>
+    <p class="qtext" id="qtext"></p>
+    <div id="qbody"></div>
+    <div class="feedback hidden" id="qfeedback"></div>
+    <div class="btnrow"><button class="btn btnPrimary" id="quizNext" disabled>Kiểm tra</button></div>
+  </div>
+  <div id="resultArea" class="hidden"></div>
+</section>
+
+<footer>Trường THCS &amp; THPT Đinh Thiện Lý · Tin học 8 · Bài 4: Biểu đồ</footer>
+</main>
+
+<script>
+/* ================= STATE ================= */
+const state={step:0,student:{name:'',cls:''},quizSet:[],quizIndex:0,answers:[],quizChecked:false,score:0,code:''};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x};
+
+/* ============ SỐ HỌC SINH GÕ VÀO ============ */
+function candidates(raw){
+  const s=String(raw).trim().replace(/%/g,'');
+  if(!s)return[];
+  const out=[];
+  const push=v=>{const n=Number(v);if(v!==''&&isFinite(n))out.push(n)};
+  push(s.replace(/[\s.,]/g,''));
+  push(s.replace(/\s/g,'').replace(/\./g,'').replace(/,/g,'.'));
+  push(s.replace(/\s/g,'').replace(/,/g,''));
+  return out;
+}
+function nearAns(raw,ans,tol){return candidates(raw).some(n=>Math.abs(n-ans)<=tol)}
+function inputOk(inp){
+  if(nearAns(inp.value,Number(inp.dataset.ans),Number(inp.dataset.tol)))return true;
+  if(inp.dataset.ans2!==undefined&&nearAns(inp.value,Number(inp.dataset.ans2),Number(inp.dataset.tol2||0)))return true;
+  return false;
+}
+function checkTasks(container){
+  const inputs=[...container.querySelectorAll('input')];
+  let wrong=0;
+  inputs.forEach(inp=>{
+    const ok=inputOk(inp);
+    inp.classList.toggle('good',ok);
+    inp.classList.toggle('wrong',!ok);
+    const row=inp.closest('.task');
+    if(row)row.classList.toggle('miss',!ok);
+    if(!ok)wrong++;
+  });
+  return {ok:wrong===0,wrong};
+}
+function checkSels(ids){
+  let wrong=0,empty=0;
+  ids.forEach(id=>{
+    const s=document.getElementById(id);
+    if(!s.value){empty++;s.classList.remove('selWrong');return}
+    const ok=s.value===s.dataset.key;
+    s.classList.toggle('selWrong',!ok);
+    if(!ok)wrong++;
+  });
+  return {wrong,empty};
+}
+function stageCheck(taskId,selIds,okMsg){
+  const box=document.getElementById(taskId);
+  const t=box?checkTasks(box):{ok:true,wrong:0};
+  const c=checkSels(selIds);
+  if(c.empty)return{ok:false,msg:`Còn ${c.empty} câu chọn chưa trả lời.`};
+  if(t.ok&&!c.wrong)return{ok:true,msg:okMsg};
+  const parts=[];
+  if(!t.ok)parts.push(`${t.wrong} ô kết quả`);
+  if(c.wrong)parts.push(`${c.wrong} câu chọn`);
+  const goi = t.ok ? '' : ' Gợi ý đã hiện ra dưới câu hỏi sai.';
+  return{ok:false,msg:`✗ Chỗ tô đỏ chưa đúng (${parts.join(' và ')}).${goi}`};
+}
+function selOk(id){const s=document.getElementById(id);return s.value===s.dataset.key}
+function selsFilled(ids){return ids.every(i=>document.getElementById(i).value)}
+function shuffleSelectOptions(sel){
+  const first=sel.querySelector('option[value=""]');
+  const rest=shuffle([...sel.querySelectorAll('option')].filter(o=>o.value!==''));
+  sel.innerHTML='';if(first)sel.appendChild(first);rest.forEach(o=>sel.appendChild(o));
+}
+
+/* ================= ĐIỀU HƯỚNG ================= */
+function updateProgress(){
+  const pct=Math.round(state.step/6*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('plabel').textContent=state.step===0?'Bắt đầu':state.step===6?'Kiểm tra cuối':`Chặng ${state.step}/5`;
+  document.getElementById('miniStudent').textContent=state.student.name?`${state.student.name} · ${state.student.cls}`:'Chưa nhập thông tin';
+}
+function showStep(n){
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  state.step=n;updateProgress();window.scrollTo({top:0,behavior:'smooth'});
+  try{localStorage.setItem('excelChart4Student',JSON.stringify(state.student))}catch(e){}
+  if(n===6)startQuiz();
+}
+document.getElementById('startBtn').onclick=()=>{
+  const name=document.getElementById('studentName').value.trim().replace(/\s+/g,' ');
+  const cls=document.getElementById('studentClass').value;
+  const fb=document.getElementById('startError');
+  if(name.length<3||!cls){fb.textContent='Nhập Họ và tên và chọn Lớp.';fb.className='feedback bad';return}
+  state.student={name,cls};fb.textContent='';showStep(1);
+};
+[['back2',1],['back3',2],['back4',3],['back5',4]].forEach(([id,n])=>{const b=document.getElementById(id);if(b)b.onclick=()=>showStep(n)});
+document.querySelectorAll('.hintBtn').forEach(b=>{b.onclick=()=>{const box=document.getElementById(b.dataset.hint);box.classList.toggle('hidden');b.textContent=box.classList.contains('hidden')?'Cần gợi ý?':'Ẩn gợi ý'}});
+
+function setStageAction(btnId,fbId,nextStep,validator){
+  const btn=document.getElementById(btnId),fb=document.getElementById(fbId);
+  btn.dataset.passed='0';
+  btn.onclick=()=>{
+    if(btn.dataset.passed==='1'){showStep(nextStep);return}
+    const r=validator();
+    if(r.ok){
+      fb.className='feedback ok';
+      fb.textContent=r.msg||'✓ Chính xác. Chặng tiếp theo đã mở.';
+      btn.dataset.passed='1';btn.textContent='Tiếp tục →';btn.className='btn btnGreen';
+    }else{
+      fb.className='feedback bad';fb.textContent=r.msg;
+    }
+  };
+}
+
+/* ================= 5 CHẶNG ================= */
+setStageAction('action1','fb1',2,()=>stageCheck('task1',['why1a','why1b','why1c','why1d','why1e'],
+  '✓ Chính xác. Xuất phát luôn là câu hỏi, không phải là loại biểu đồ nào nhìn đẹp hơn.'));
+
+setStageAction('action2','fb2',3,()=>stageCheck('task2',['why2a','why2b'],
+  '✓ Chính xác. Không một con số nào đổi — chỉ có hình dạng đổi. Đó là toàn bộ bài học hôm nay.'));
+
+setStageAction('action3','fb3',4,()=>stageCheck('task3',['why3a','why3b'],
+  '✓ Chính xác. Thiếu một trong ba điều kiện thì dùng biểu đồ cột, luôn dễ đọc hơn.'));
+
+setStageAction('action4','fb4',5,()=>stageCheck('task4',['why4a','why4b','why4c'],
+  '✓ Chính xác. Phân tán cho thấy tương quan, không cho thấy nguyên nhân — đúng như Bài 3.'));
+
+setStageAction('action5','fb5',6,()=>stageCheck('task5',['why5a','why5b','why5c'],
+  '✓ Chính xác. Người vẽ biểu đồ luôn có quyền lực với người xem. Sẵn sàng cho bài kiểm tra cuối.'));
+
+/* ================= NGÂN HÀNG CÂU HỎI ================= */
+const BANK=[
+ {q:'Muốn so sánh kết quả giữa các nhóm thì dùng loại biểu đồ nào?',options:[['Biểu đồ cột','k'],['Biểu đồ tròn','x'],['Biểu đồ đường','x'],['Biểu đồ phân tán','x']]},
+ {q:'Muốn cho thấy một nhóm chiếm bao nhiêu phần của tổng thể thì dùng loại nào?',options:[['Biểu đồ tròn','k'],['Biểu đồ phân tán','x'],['Biểu đồ đường','x'],['Cột phân phối','x']]},
+ {q:'Muốn xem các giá trị của một cột số trải ra thế nào thì dùng loại nào?',options:[['Cột phân phối','k'],['Biểu đồ tròn','x'],['Biểu đồ đường','x'],['Biểu đồ cột thường','x']]},
+ {q:'Muốn xem hai biến số có đi cùng nhau không thì dùng loại nào?',options:[['Biểu đồ phân tán','k'],['Biểu đồ tròn','x'],['Cột phân phối','x'],['Biểu đồ cột thường','x']]},
+ {q:'Biểu đồ đường chỉ nên dùng khi trục ngang có đặc điểm gì?',options:[['Có thứ tự thật, thường là thời gian','k'],['Có nhiều nhóm khác nhau','x'],['Chứa dữ liệu dạng chữ','x'],['Có giá trị lớn nhất ở bên phải','x']]},
+ {q:'Vì sao không nên vẽ biểu đồ đường cho các nhóm phương tiện đến trường?',options:[['Vì giữa các nhóm rời rạc không có đường đi nào cả','k'],['Vì Excel không cho phép vẽ như vậy','x'],['Vì đường luôn kém chính xác hơn cột','x'],['Vì các nhóm có số lượng quá khác nhau','x']]},
+ {q:'Đổi điểm bắt đầu của trục đứng từ 0 lên một số khác thì điều gì thay đổi?',options:[['Chỉ hình dạng biểu đồ, không con số nào đổi','k'],['Cả dữ liệu gốc lẫn biểu đồ đều đổi','x'],['Excel tính lại trung bình theo trục mới','x'],['Số nhóm trong biểu đồ giảm đi','x']]},
+ {q:'Khi nào việc cắt trục là chấp nhận được?',options:[['Khi khác biệt nhỏ nhưng quan trọng, và có ghi rõ','k'],['Bất cứ khi nào muốn biểu đồ trông đẹp hơn','x'],['Khi người xem đã biết trước dữ liệu','x'],['Không bao giờ được phép cắt trục','x']]},
+ {q:'Cắt trục mà không ghi chú gì thì hậu quả là gì?',options:[['Khác biệt nhỏ bị phóng thành khác biệt lớn','k'],['Biểu đồ không hiển thị được trên máy khác','x'],['Excel báo lỗi khi lưu file','x'],['Dữ liệu gốc bị thay đổi theo','x']]},
+ {q:'Biểu đồ tròn phù hợp nhất khi nào?',options:[['Ít nhóm, chênh lệch rõ, các phần cộng thành một tổng','k'],['Có càng nhiều nhóm càng tốt','x'],['Khi cần so sánh hai bộ dữ liệu khác nhau','x'],['Khi dữ liệu là các con số đo được','x']]},
+ {q:'Vì sao biểu đồ tròn với sáu lát trở lên thường khó đọc?',options:[['Vì mắt người so diện tích hình quạt rất kém','k'],['Vì Excel chỉ tô được năm màu khác nhau','x'],['Vì tổng các lát sẽ vượt quá 100 phần trăm','x'],['Vì lát nhỏ luôn bị Excel ẩn đi','x']]},
+ {q:'Ba lát tròn lần lượt là 38, 34 và 29 phần trăm. Vấn đề ở đây là gì?',options:[['Ba lát gần bằng nhau nên mắt khó phân biệt','k'],['Tổng ba lát không đủ 100 phần trăm','x'],['Biểu đồ tròn không dùng được cho ba nhóm','x'],['Cần đổi sang biểu đồ đường ngay','x']]},
+ {q:'Biểu đồ phân tán cho biết điều gì về hai biến số?',options:[['Chúng có xu hướng đi cùng nhau hay không','k'],['Cái nào là nguyên nhân của cái nào','x'],['Giá trị trung bình của từng biến','x'],['Có bao nhiêu người trong mỗi nhóm','x']]},
+ {q:'Đám mây chấm nghiêng xuống trong biểu đồ phân tán nghĩa là gì?',options:[['Biến này tăng thì biến kia có xu hướng giảm','k'],['Biến này chắc chắn gây ra sự giảm của biến kia','x'],['Dữ liệu đã bị nhập sai ở nhiều dòng','x'],['Hai biến hoàn toàn không liên quan','x']]},
+ {q:'Trong biểu đồ phân tán, các chấm tản rất rộng quanh xu hướng nghĩa là gì?',options:[['Xu hướng đúng với đám đông nhưng không đúng với từng người','k'],['Toàn bộ xu hướng đó là sai','x'],['Cần xoá bớt các chấm nằm xa cho gọn','x'],['Phải đổi sang biểu đồ cột ngay','x']]},
+ {q:'Năm thành phần bắt buộc của một biểu đồ đọc được gồm những gì?',options:[['Tiêu đề, nhãn hai trục, đơn vị, cỡ mẫu, nguồn dữ liệu','k'],['Màu sắc, đường viền, nền, phông chữ, khung','x'],['Tên người vẽ, ngày vẽ, phần mềm, lớp, trường','x'],['Số cột, số hàng, số màu, số nhãn, số trục','x']]},
+ {q:'Một biểu đồ có tiêu đề ghi đúng một chữ Biểu đồ thì sao?',options:[['Chưa đạt, vì không cho biết nó trả lời câu hỏi gì','k'],['Đã đạt, vì đã có tiêu đề rồi','x'],['Chưa đạt, vì tiêu đề phải viết in hoa hết','x'],['Đã đạt, miễn là chữ đủ lớn','x']]},
+ {q:'Vì sao mọi biểu đồ đều nên ghi kèm cỡ mẫu?',options:[['Để người xem biết con số dựa trên bao nhiêu người','k'],['Để biểu đồ trông chuyên nghiệp hơn','x'],['Để Excel vẽ được đúng tỉ lệ các cột','x'],['Để phân biệt biểu đồ này với biểu đồ khác','x']]},
+ {q:'Bỏ bớt vài nhóm khỏi biểu đồ mà không nói gì là lỗi gì?',options:[['Chỉ giữ phần ủng hộ điều mình muốn nói','k'],['Lỗi kỹ thuật khi chọn vùng dữ liệu','x'],['Lỗi định dạng số trong bảng gốc','x'],['Không phải lỗi, vẽ gọn là tốt','x']]},
+ {q:'Vì sao ba thủ thuật làm biểu đồ đánh lừa lại khó bị phát hiện?',options:[['Vì chúng không sửa một con số nào trong dữ liệu','k'],['Vì chúng chỉ dùng được trên bản Excel mới','x'],['Vì chúng làm biểu đồ có nhiều màu sắc hơn','x'],['Vì chúng chỉ đánh lừa được người chưa học Excel','x']]}
+];
+
+/* ================= BÀI KIỂM TRA ================= */
+function startQuiz(){
+  state.quizSet=shuffle(BANK).slice(0,10);state.quizIndex=0;state.answers=[];state.quizChecked=false;
+  document.getElementById('resultArea').classList.add('hidden');
+  document.getElementById('quizArea').classList.remove('hidden');
+  renderQ();
+}
+function renderQ(){
+  const q=state.quizSet[state.quizIndex];
+  q._opts=shuffle(q.options);
+  state.quizChecked=false;
+  document.getElementById('qnum').textContent=`Câu ${state.quizIndex+1}/10`;
+  document.getElementById('qtext').textContent=q.q;
+  const body=document.getElementById('qbody');body.innerHTML='';
+  const fb=document.getElementById('qfeedback');fb.className='feedback hidden';fb.innerHTML='';
+  const next=document.getElementById('quizNext');
+  next.disabled=true;next.textContent=state.quizIndex===9?'Kiểm tra & nộp bài':'Kiểm tra';
+  q._opts.forEach(([txt,key])=>{
+    const b=document.createElement('button');
+    b.className='qOpt';b.textContent=txt;b.dataset.key=key;
+    b.onclick=()=>{if(state.quizChecked)return;[...body.children].forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state.answers[state.quizIndex]=key;next.disabled=false};
+    body.appendChild(b);
+  });
+}
+function correctText(q){const f=q.options.find(o=>o[1]==='k');return f?f[0]:''}
+document.getElementById('quizNext').onclick=()=>{
+  const q=state.quizSet[state.quizIndex],next=document.getElementById('quizNext');
+  if(!state.quizChecked){
+    if(state.answers[state.quizIndex]===undefined)return;
+    const ok=state.answers[state.quizIndex]==='k';state.quizChecked=true;
+    [...document.getElementById('qbody').children].forEach(b=>{
+      if(b.dataset.key==='k')b.classList.add('right');
+      else if(b.classList.contains('selected'))b.classList.add('wrongPick');
+    });
+    const fb=document.getElementById('qfeedback');
+    fb.className='feedback '+(ok?'ok':'bad');
+    fb.innerHTML=ok?'✓ Chính xác.':`✗ Chưa đúng.<div class="answerNote"><strong>Đáp án đúng:</strong> ${esc(correctText(q))}</div>`;
+    if(state.quizIndex===9){finishQuiz();return}
+    next.textContent='Tiếp tục →';next.disabled=false;return;
+  }
+  state.quizIndex++;renderQ();
+};
+function detailedReview(){
+  return state.quizSet.map((q,i)=>{
+    const ok=state.answers[i]==='k';
+    return `<div class="reviewItem ${ok?'good':'miss'}"><strong>${ok?'✓':'✗'} Câu ${i+1}: ${ok?'Đúng':'Chưa đúng'}</strong><span>${esc(q.q)}</span>${ok?'':`<div class="answerNote"><strong>Đáp án đúng:</strong> ${esc(correctText(q))}</div>`}</div>`;
+  }).join('');
+}
+function finishQuiz(){
+  state.score=state.quizSet.reduce((s,q,i)=>s+(state.answers[i]==='k'?1:0),0);
+  document.getElementById('quizArea').classList.add('hidden');
+  const r=document.getElementById('resultArea');r.classList.remove('hidden');
+  const review=`<div class="review">${detailedReview()}</div>`;
+  if(state.score>=8){
+    state.code=`EXCEL4-${new Date().toISOString().slice(0,10).replaceAll('-','')}-${String(Math.floor(Math.random()*9000)+1000)}`;
+    r.innerHTML=`<div class="callout"><strong>Hoàn thành</strong><br>${esc(state.student.name)} · ${esc(state.student.cls)}</div><div class="score">${state.score}/10</div>${review}<div class="btnrow"><button class="btn btnGreen" id="pngBtn">Tải PNG</button><button class="btn btnPrimary" id="pdfBtn">Tải PDF</button><button class="btn btnSecondary" id="retryBtn">Làm lại</button></div><div class="cert"><canvas id="certCanvas" width="1600" height="1000"></canvas></div>`;
+    drawCert();
+    document.getElementById('pngBtn').onclick=downloadPNG;
+    document.getElementById('pdfBtn').onclick=downloadPDF;
+    document.getElementById('retryBtn').onclick=startQuiz;
+  }else{
+    r.innerHTML=`<div class="callout warn"><strong>Kết quả: ${state.score}/10</strong><br>Cần đạt từ 8/10 để nhận minh chứng hoàn thành.</div>${review}<div class="btnrow"><button class="btn btnSecondary" id="reviewBtn">Xem lại các chặng</button><button class="btn btnPrimary" id="retryBtn">Làm lại</button></div>`;
+    document.getElementById('reviewBtn').onclick=()=>showStep(1);
+    document.getElementById('retryBtn').onclick=startQuiz;
+  }
+}
+
+/* ================= MINH CHỨNG ================= */
+function rounded(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function fit(ctx,text,max,start){let s=start;while(s>30){ctx.font=`900 ${s}px Arial,"Segoe UI","Noto Sans",sans-serif`;if(ctx.measureText(text).width<=max)break;s-=2}ctx.font=`900 ${s}px Arial,"Segoe UI","Noto Sans",sans-serif`}
+function drawCert(){
+  const c=document.getElementById('certCanvas');if(!c)return;
+  const ctx=c.getContext('2d'),W=c.width,H=c.height;
+  const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#fbfdff');g.addColorStop(1,'#edf9f5');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#0f9d7a';ctx.lineWidth=10;rounded(ctx,42,42,W-84,H-84,28);ctx.stroke();
+  ctx.strokeStyle='#a6d9cb';ctx.lineWidth=2;rounded(ctx,68,68,W-136,H-136,22);ctx.stroke();
+  ctx.fillStyle='#315efb';ctx.beginPath();ctx.arc(145,145,58,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.font='800 52px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('▦',145,145);
+  ctx.textAlign='left';ctx.fillStyle='#101828';
+  ctx.font='800 27px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('TRƯỜNG THCS & THPT ĐINH THIỆN LÝ',235,132);
+  ctx.fillStyle='#667085';ctx.font='500 22px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('Tin học 8 · Phân tích dữ liệu bằng Excel',235,168);
+  ctx.textAlign='center';ctx.fillStyle='#101828';
+  ctx.font='900 58px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('MINH CHỨNG HOÀN THÀNH',W/2,310);
+  ctx.fillStyle='#667085';ctx.font='500 26px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('Xác nhận học sinh',W/2,382);
+  ctx.fillStyle='#0b7a5f';fit(ctx,state.student.name,W-260,58);ctx.fillText(state.student.name,W/2,472);
+  ctx.fillStyle='#344054';ctx.font='700 29px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText(`Lớp ${state.student.cls}`,W/2,528);
+  ctx.fillStyle='#475467';ctx.font='500 25px Arial,"Segoe UI","Noto Sans",sans-serif';
+  ctx.fillText('đã hoàn thành bài học Biểu đồ',W/2,615);
+  ctx.fillStyle='#0f9d7a';ctx.font='900 40px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText(`Kết quả: ${state.score}/10`,W/2,708);
+  const d=new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
+  ctx.fillStyle='#667085';ctx.font='500 20px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText(`Ngày hoàn thành: ${d} · Mã: ${state.code}`,W/2,790);
+  ctx.fillStyle='#98a2b3';ctx.font='500 17px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('Minh chứng hoàn thành hoạt động học tập dùng để nộp trên Canvas.',W/2,870);
+}
+function safeName(){return state.student.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_|_$/g,'')}
+function downloadPNG(){drawCert();const a=document.createElement('a');a.href=document.getElementById('certCanvas').toDataURL('image/png');a.download=`Minh_chung_BieuDo_${safeName()}_${state.student.cls}.png`;a.click()}
+function downloadPDF(){drawCert();if(!window.jspdf){alert('Không tải được PDF. Hãy tải bản PNG.');return}const {jsPDF}=window.jspdf;const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});pdf.addImage(document.getElementById('certCanvas').toDataURL('image/png'),'PNG',0,0,297,210);pdf.save(`Minh_chung_BieuDo_${safeName()}_${state.student.cls}.pdf`)}
+
+/* ================= KHỞI ĐỘNG ================= */
+document.querySelectorAll('#why1,#why2,#why2b,#why3,#why4,#why4b,#why5,#why5b').forEach(shuffleSelectOptions);
+try{const s=JSON.parse(localStorage.getItem('excelChart4Student')||'null');if(s&&s.name){document.getElementById('studentName').value=s.name;const sel=document.getElementById('studentClass');if([...sel.options].some(o=>o.value===s.cls)){state.student=s;sel.value=s.cls}}}catch(e){}
+updateProgress();
+</script>
+</body></html>
