@@ -119,7 +119,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <section class="hero">
   <span class="eyebrow">TIN HỌC 8 · BÀI 4</span>
   <h1>Trục bị cắt</h1>
-  <p class="lead">5 chặng: chọn đúng loại biểu đồ, vẽ trên Excel — rồi tự tay làm một biểu đồ đánh lừa người xem, để lần sau gặp là nhận ra ngay.</p>
+  <p class="lead">5 chặng. Nguyên tắc xuyên suốt: <strong>một biểu đồ = một bảng thống kê</strong>. Em lập bảng trước, vẽ biểu đồ sau — rồi tự tay làm một biểu đồ đánh lừa người xem, để lần sau gặp là nhận ra ngay.</p>
 </section>
 
 <!-- ============ BẮT ĐẦU ============ -->
@@ -128,10 +128,12 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
   <div class="callout blue">
     <strong>Chuẩn bị</strong><br>
-    Vẫn dùng file <span class="fx">LSTS_KhaoSat_K8_2026_AnDanh_Cleaned.xlsx</span>, sheet <span class="fx">Clean_Data</span>,
-    vùng dữ liệu hàng 3 → hàng 300.<br>
-    Bài này em <strong>vẽ biểu đồ</strong> từ chính những bảng số đã tính ở Bài 3. Nếu chưa lưu bảng số đó,
-    em tính lại nhanh bằng các hàm có điều kiện đã học.
+    Mở file <span class="fx">Lesson 4. LSTS_KhaoSat_K8_2026.xlsx</span> tải trên Canvas. File có hai sheet:
+    <span class="fx">Clean_Data</span> chứa dữ liệu (hàng 3 → hàng 300) và <span class="fx">BangThongKe</span> đã kẻ sẵn các bảng trống để em điền.<br>
+    <strong>Quy tắc của cả buổi: một biểu đồ = một bảng thống kê.</strong> Excel không vẽ được biểu đồ từ 298 dòng dữ liệu thô —
+    em phải rút gọn thành một bảng vài dòng trước đã.<br>
+    Ba bước cho mỗi biểu đồ: <strong>①</strong> điền bảng thống kê ở sheet <span class="fx">BangThongKe</span> bằng công thức có điều kiện
+    → <strong>②</strong> bôi đen cả bảng, kể cả dòng tiêu đề → <strong>③</strong> Insert → chọn đúng loại biểu đồ.
   </div>
 
   <div class="formGrid">
@@ -178,13 +180,13 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <section class="section" id="step2">
   <div class="head"><div class="badge">2</div><div><h2>Biểu đồ cột và cái bẫy ở trục đứng</h2><p class="sub">Chặng quan trọng nhất của cả bài.</p></div></div>
 
-  <div class="callout blue">Vẽ biểu đồ cột <strong>điểm trung bình lớp 7 theo phương tiện đến trường</strong> cho 5 nhóm. Bảng số em đã tính ở Bài 3; nếu chưa có thì tính lại bằng hàm trung bình có điều kiện.<br>Vẽ xong, đọc ba con số dưới đây từ chính biểu đồ của em.</div>
+  <div class="callout blue"><strong>Bước A — lập BẢNG 1 ở sheet BangThongKe.</strong> Bảng có 5 dòng (5 nhóm phương tiện) và 2 cột số: <em>Số bạn</em> đếm bằng COUNTIF trên cột I, <em>Điểm TB lớp 7</em> tính bằng AVERAGEIF với điều kiện ở cột I và lấy điểm ở cột H.<br><strong>Bước B — vẽ biểu đồ cột.</strong> Bôi đen cả bảng vừa lập rồi Insert → Column Chart. Thêm đủ năm thành phần bắt buộc.<br>Ba ô dưới đây lấy số từ chính bảng thống kê của em.</div>
 
-  <div class="callout warn">Sau khi trả lời xong ba ô số, làm tiếp: bấm chuột phải vào <strong>trục đứng</strong> → Format Axis → đổi ô <strong>Minimum</strong> từ 0 thành 7, rồi nhìn kỹ biểu đồ trước khi trả lời hai câu cuối.</div>
+  <div class="callout warn">Xong ba ô số thì làm tiếp trên chính biểu đồ vừa vẽ: bấm chuột phải vào <strong>trục đứng</strong> → Format Axis → đổi ô <strong>Minimum</strong> từ 0 thành 7. Bảng số không đổi một chữ nào, nhưng hình thì đổi hẳn — nhìn kỹ rồi trả lời hai câu cuối.</div>
 
   <div class="activity">
     <h3>Thử thách 2</h3>
-    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task2">
       <div class="task"><div class="q"><b>Giá trị của cột cao nhất</b><span class="hintFx">=AVERAGEIF(I3:I300;"Đi bộ";H3:H300)</span></div><input data-ans="7.82" data-tol="0.04" placeholder="ví dụ: 7.82"></div>
       <div class="task"><div class="q"><b>Giá trị của cột thấp nhất</b><span class="hintFx">=AVERAGEIF(I3:I300;"Xe buýt trường";H3:H300)</span></div><input data-ans="7.14" data-tol="0.04" placeholder="ví dụ: 7.14"></div>
@@ -209,11 +211,11 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <section class="section" id="step3">
   <div class="head"><div class="badge">3</div><div><h2>Biểu đồ tròn và giới hạn của nó</h2><p class="sub">Loại biểu đồ hay bị dùng sai nhất.</p></div></div>
 
-  <div class="callout blue">Vẽ biểu đồ tròn cho cột <strong>Mạng xã hội dùng nhiều nhất</strong>, bật nhãn phần trăm, rồi đọc số từ biểu đồ của em.<br>Bật nhãn: Chart Elements → Data Labels → More Options → Percentage.</div>
+  <div class="callout blue"><strong>Bước A — lập BẢNG 2 ở sheet BangThongKe.</strong> Bảng có 6 dòng (6 mạng xã hội) và 1 cột số: <em>Số bạn</em> đếm bằng COUNTIF trên cột J.<br><strong>Bước B — vẽ biểu đồ tròn.</strong> Bôi đen cả bảng rồi Insert → Pie Chart, sau đó bật nhãn phần trăm: Chart Elements → Data Labels → More Options → Percentage.</div>
 
   <div class="activity">
     <h3>Thử thách 3</h3>
-    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task3">
       <div class="task"><div class="q"><b>Có bao nhiêu nhóm khác nhau trong cột Mạng xã hội</b><span class="hintFx">Đếm số lát trên biểu đồ tròn của em</span></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
       <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn TikTok</b><span class="hintFx">Số bạn chọn TikTok chia cho tổng số bạn trả lời câu hỏi đó</span></div><input data-ans="33.6" data-tol="0.6" data-ans2="0.336" data-tol2="0.006" placeholder="ví dụ: 33.6"></div>
@@ -238,13 +240,13 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <section class="section" id="step4">
   <div class="head"><div class="badge">4</div><div><h2>Cột phân phối và biểu đồ phân tán</h2><p class="sub">Hai biểu đồ giúp em nhìn thấy tận mắt những gì đã tính bằng số ở Bài 2 và Bài 3.</p></div></div>
 
-  <div class="callout blue"><strong>Phần A — cột phân phối.</strong> Chia cột Giờ ngủ thành 6 khoảng rồi đếm số bạn trong mỗi khoảng, sau đó vẽ biểu đồ cột từ bảng đếm đó.<br>Các khoảng: dưới 5 · 5 đến dưới 6 · 6 đến dưới 7 · 7 đến dưới 8 · 8 đến dưới 9 · từ 9 trở lên.</div>
+  <div class="callout blue"><strong>Phần A — cột phân phối.</strong> Lập <strong>BẢNG 3</strong> ở sheet BangThongKe: 6 dòng, mỗi dòng một khoảng giờ ngủ, cột số đếm bằng COUNTIFS với hai điều kiện trên cột B. Sáu khoảng đã ghi sẵn trong bảng: dưới 5 · 5 đến dưới 6 · 6 đến dưới 7 · 7 đến dưới 8 · 8 đến dưới 9 · từ 9 trở lên.<br>Lập xong, bôi đen bảng rồi Insert → Column Chart.</div>
 
-  <div class="callout warn"><strong>Phần B — phân tán.</strong> Vẽ biểu đồ phân tán giữa cột Giờ dùng thiết bị và cột Điểm TB lớp 7. Giữ phím Ctrl để chọn hai cột không nằm cạnh nhau.</div>
+  <div class="callout warn"><strong>Phần B — phân tán: ngoại lệ duy nhất, KHÔNG cần bảng thống kê.</strong> Biểu đồ phân tán giữ nguyên từng bạn thành một dấu chấm nên không gom nhóm được. Sang sheet Clean_Data, giữ phím Ctrl để bôi đen cột C (Giờ dùng thiết bị) và cột H (Điểm TB lớp 7), rồi Insert → Scatter.</div>
 
   <div class="activity">
     <h3>Thử thách 4</h3>
-    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task4">
       <div class="task"><div class="q"><b>Khoảng 7 đến dưới 8 giờ có bao nhiêu bạn</b><span class="hintFx">=COUNTIFS(B3:B300;">=7";B3:B300;"<8")</span></div><input data-ans="112" data-tol="0" placeholder="kết quả"></div>
       <div class="task"><div class="q"><b>Khoảng dưới 5 giờ có bao nhiêu bạn</b><span class="hintFx">=COUNTIF(B3:B300;"<5")</span></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
@@ -278,7 +280,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
   <div class="activity">
     <h3>Thử thách 5</h3>
-    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Vẽ biểu đồ rồi đọc số từ chính biểu đồ của em.</p>
+    <p class="ahint">Chặng này chỉ cần nhìn hình phía trên, không phải vẽ gì thêm.</p>
     <div class="taskGrid" id="task5">
       <div class="task"><div class="q"><b>Có bao nhiêu trong năm thành phần bắt buộc KHÔNG đạt yêu cầu</b><span class="hintFx">Soát lần lượt: tiêu đề · tên trục ngang · tên trục đứng kèm đơn vị · cỡ mẫu n · nguồn dữ liệu</span></div><input data-ans="5" data-tol="0" placeholder="kết quả"></div>
       <div class="task"><div class="q"><b>Biểu đồ đó đã dùng bao nhiêu thủ thuật đánh lừa</b><span class="hintFx">Ba thủ thuật: cắt trục không ghi chú · bỏ bớt nhóm · hiệu ứng 3D</span></div><input data-ans="3" data-tol="0" placeholder="kết quả"></div>
@@ -442,6 +444,8 @@ setStageAction('action5','fb5',6,()=>stageCheck('task5',['why5a','why5b','why5c'
 
 /* ================= NGÂN HÀNG CÂU HỎI ================= */
 const BANK=[
+ {q:'Muốn vẽ biểu đồ cột từ 298 dòng dữ liệu thô thì việc đầu tiên phải làm là gì?',options:[['Lập một bảng thống kê rút gọn vài dòng','k'],['Bôi đen cả 298 dòng rồi bấm Insert','x'],['Sắp xếp lại dữ liệu theo thứ tự tăng dần','x'],['Đổi màu nền cho vùng dữ liệu cần vẽ','x']]},
+ {q:'Loại biểu đồ nào KHÔNG cần lập bảng thống kê trước khi vẽ?',options:[['Biểu đồ phân tán','k'],['Biểu đồ cột','x'],['Biểu đồ tròn','x'],['Cột phân phối','x']]},
  {q:'Muốn so sánh kết quả giữa các nhóm thì dùng loại biểu đồ nào?',options:[['Biểu đồ cột','k'],['Biểu đồ tròn','x'],['Biểu đồ đường','x'],['Biểu đồ phân tán','x']]},
  {q:'Muốn cho thấy một nhóm chiếm bao nhiêu phần của tổng thể thì dùng loại nào?',options:[['Biểu đồ tròn','k'],['Biểu đồ phân tán','x'],['Biểu đồ đường','x'],['Cột phân phối','x']]},
  {q:'Muốn xem các giá trị của một cột số trải ra thế nào thì dùng loại nào?',options:[['Cột phân phối','k'],['Biểu đồ tròn','x'],['Biểu đồ đường','x'],['Biểu đồ cột thường','x']]},
