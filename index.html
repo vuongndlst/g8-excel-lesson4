@@ -73,12 +73,11 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(49,9
 .task input.good{border-color:var(--green);box-shadow:0 0 0 4px rgba(15,157,122,.12)}
 .task input.wrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
 .task.miss{border-color:#fecdca;background:#fffbfa}
-.hintFx{display:none;margin-top:8px;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;background:#fff7ed;border:1px solid #fed7aa;color:#8a3c05;border-radius:9px;padding:5px 10px;font-size:12.5px;font-weight:800}
-.task.miss .hintFx{display:inline-block}
-.hintFx::before{content:"Gợi ý: ";font-family:inherit}
 select.selWrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
 .hintBtn{background:none;border:0;color:var(--blue);font-size:12px;font-weight:850;cursor:pointer;padding:6px 0}
 .hintBox{font-size:13px;color:#475467;background:#f8fafc;border-radius:11px;padding:10px 12px;margin-top:8px;line-height:1.55}
+.hintLevel+.hintLevel{border-top:1px solid var(--line);margin-top:8px;padding-top:8px}
+.noCopy{-webkit-user-select:none;user-select:none}
 .dataWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;margin-top:14px}
 .dataTable{width:100%;border-collapse:collapse;min-width:560px;font-size:13.5px}
 .dataTable th,.dataTable td{padding:10px 12px;border-bottom:1px solid #eef0f3;text-align:right}
@@ -136,6 +135,14 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     → <strong>②</strong> bôi đen cả bảng, kể cả dòng tiêu đề → <strong>③</strong> Insert → chọn đúng loại biểu đồ.
   </div>
 
+  <div class="callout warn">
+    <strong>Chưa biết tạo biểu đồ? Xem nhanh trước khi làm</strong><br>
+    Quy trình chung: bôi đen bảng thống kê có cả tiêu đề → chọn <span class="fx">Insert</span> → chọn loại biểu đồ → thêm tiêu đề, tên trục và nhãn dữ liệu.<br>
+    <a class="btn btnSecondary" href="https://support.microsoft.com/en-us/excel/get-started/create-a-chart-from-start-to-finish" target="_blank" rel="noopener noreferrer">Hướng dẫn chính thức của Microsoft ↗</a>
+    <a class="btn btnSecondary" href="https://www.youtube.com/@Learnfree_skills/search?query=Excel%20charts" target="_blank" rel="noopener noreferrer">Video LearnFree / GCFGlobal ↗</a><br>
+    <span class="tiny">Chỉ cần xem phần chọn vùng dữ liệu và Insert Chart. Bài này không yêu cầu chuyển dữ liệu thành Table.</span>
+  </div>
+
   <div class="formGrid">
     <div><label for="studentName">Họ và tên</label><input id="studentName" autocomplete="name" placeholder="Ví dụ: Nguyễn Văn An"></div>
     <div><label for="studentClass">Lớp</label><select id="studentClass"><option value="">Chọn lớp</option><option>8A1</option><option>8A2</option><option>8A3</option><option>8A4</option><option>8A5</option><option>8A6</option><option>8A7</option><option>8A8</option><option>8A9</option><option>8A10</option></select></div>
@@ -170,7 +177,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
     </div>
     <button class="hintBtn" data-hint="hint1">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint1">Xuất phát luôn là câu hỏi: đang so sánh các nhóm, đang xét một phần của tổng thể, đang xem các giá trị trải ra, hay đang xét quan hệ giữa hai biến số?</div>
+    <div class="hintBox noCopy hidden" id="hint1"><div class="hintLevel hidden"><strong>Gợi ý 1:</strong> Đừng nhìn tên biểu đồ trước. Hãy xác định câu hỏi đang so sánh nhóm, xem tỉ trọng, xem phân phối, hay xem quan hệ giữa hai biến số.</div><div class="hintLevel hidden"><strong>Gợi ý 2:</strong> Nhóm dùng biểu đồ cột; phần của tổng thể có ít nhóm dùng biểu đồ tròn; giá trị trải ra dùng cột phân phối; hai biến số đi cùng nhau dùng biểu đồ phân tán.</div></div>
     <div class="feedback" id="fb1"></div>
     <div class="btnrow"><button class="btn btnPrimary" id="action1">Kiểm tra</button></div>
   </div>
@@ -180,7 +187,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <section class="section" id="step2">
   <div class="head"><div class="badge">2</div><div><h2>Biểu đồ cột và cái bẫy ở trục đứng</h2><p class="sub">Chặng quan trọng nhất của cả bài.</p></div></div>
 
-  <div class="callout blue"><strong>Bước A — lập BẢNG 1 ở sheet BangThongKe.</strong> Bảng có 5 dòng (5 nhóm phương tiện) và 2 cột số: <em>Số bạn</em> đếm bằng COUNTIF trên cột I, <em>Điểm TB lớp 7</em> tính bằng AVERAGEIF với điều kiện ở cột I và lấy điểm ở cột H.<br><strong>Bước B — vẽ biểu đồ cột.</strong> Bôi đen cả bảng vừa lập rồi Insert → Column Chart. Thêm đủ năm thành phần bắt buộc.<br>Ba ô dưới đây lấy số từ chính bảng thống kê của em.</div>
+  <div class="callout blue"><strong>Bước A — lập BẢNG 1 ở sheet BangThongKe.</strong> Bảng có 5 dòng (5 nhóm phương tiện) và 2 cột số: <em>Số bạn (n)</em> là số bạn thật sự góp dữ liệu vào điểm trung bình của dòng đó; <em>Điểm TB lớp 7</em> lấy từ cột H nhưng chỉ tính những dòng thuộc đúng nhóm ở cột I. Để tìm n: chọn nhóm → bỏ dòng thiếu điểm → đếm số dòng còn lại. Cột điểm trong Excel đã hiển thị 2 chữ số thập phân; nhập đúng số đang thấy lên web.<br><strong>Bước B — vẽ biểu đồ cột.</strong> Bôi đen cả bảng vừa lập rồi Insert → Column Chart. Thêm đủ năm thành phần bắt buộc.<br>Ba ô dưới đây lấy số từ chính bảng thống kê của em.</div>
 
   <div class="callout warn">Xong ba ô số thì làm tiếp trên chính biểu đồ vừa vẽ: bấm chuột phải vào <strong>trục đứng</strong> → Format Axis → đổi ô <strong>Minimum</strong> từ 0 thành 7. Bảng số không đổi một chữ nào, nhưng hình thì đổi hẳn — nhìn kỹ rồi trả lời hai câu cuối.</div>
 
@@ -188,9 +195,9 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     <h3>Thử thách 2</h3>
     <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task2">
-      <div class="task"><div class="q"><b>Giá trị của cột cao nhất</b><span class="hintFx">=AVERAGEIF(I3:I300;"Đi bộ";H3:H300)</span></div><input data-ans="7.82" data-tol="0.04" placeholder="ví dụ: 7.82"></div>
-      <div class="task"><div class="q"><b>Giá trị của cột thấp nhất</b><span class="hintFx">=AVERAGEIF(I3:I300;"Xe buýt trường";H3:H300)</span></div><input data-ans="7.14" data-tol="0.04" placeholder="ví dụ: 7.14"></div>
-      <div class="task"><div class="q"><b>Cột cao nhất hơn cột thấp nhất bao nhiêu điểm</b><span class="hintFx">Lấy giá trị cột cao nhất trừ giá trị cột thấp nhất</span></div><input data-ans="0.68" data-tol="0.04" placeholder="ví dụ: 0.68"></div>
+      <div class="task"><div class="q"><b>Giá trị của cột cao nhất</b></div><input data-ans="7.82" data-tol="0.04" placeholder="ví dụ: 7.82"></div>
+      <div class="task"><div class="q"><b>Giá trị của cột thấp nhất</b></div><input data-ans="7.14" data-tol="0.04" placeholder="ví dụ: 7.14"></div>
+      <div class="task"><div class="q"><b>Cột cao nhất hơn cột thấp nhất bao nhiêu điểm</b></div><input data-ans="0.68" data-tol="0.04" placeholder="ví dụ: 0.68"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Sau khi đổi Minimum thành 7, điều gì đã thay đổi?</div>
@@ -201,7 +208,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
     </div>
     <button class="hintBtn" data-hint="hint2">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint2">Muốn đọc giá trị từng cột cho dễ: Chart Elements → Data Labels để hiện số ngay trên đầu mỗi cột.</div>
+    <div class="hintBox noCopy hidden" id="hint2"><div class="hintLevel hidden"><strong>Gợi ý 1:</strong> Bảng 1 cần một hàng cho mỗi nhóm phương tiện. Với mỗi hàng, tính điểm trung bình của đúng nhóm đó rồi mới vẽ biểu đồ.</div><div class="hintLevel hidden"><strong>Gợi ý 2:</strong> Điều kiện nhóm nằm ở cột I, giá trị điểm nằm ở cột H. Dùng cấu trúc AVERAGEIF khuyết, sau đó bật Data Labels để đọc cột cao nhất và thấp nhất; lấy hai giá trị trừ nhau.</div></div>
     <div class="feedback" id="fb2"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back2">← Chặng 1</button><button class="btn btnPrimary" id="action2">Kiểm tra</button></div>
   </div>
@@ -211,15 +218,15 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <section class="section" id="step3">
   <div class="head"><div class="badge">3</div><div><h2>Biểu đồ tròn và giới hạn của nó</h2><p class="sub">Loại biểu đồ hay bị dùng sai nhất.</p></div></div>
 
-  <div class="callout blue"><strong>Bước A — lập BẢNG 2 ở sheet BangThongKe.</strong> Bảng có 6 dòng (6 mạng xã hội) và 1 cột số: <em>Số bạn</em> đếm bằng COUNTIF trên cột J.<br><strong>Bước B — vẽ biểu đồ tròn.</strong> Bôi đen cả bảng rồi Insert → Pie Chart, sau đó bật nhãn phần trăm: Chart Elements → Data Labels → More Options → Percentage.</div>
+  <div class="callout blue"><strong>Bước A — lập BẢNG 2 ở sheet BangThongKe.</strong> Bảng có 6 dòng (6 mạng xã hội) và 1 cột số: <em>Số bạn</em> là số lần từng nhãn xuất hiện ở cột J.<br><strong>Bước B — vẽ biểu đồ tròn.</strong> Bôi đen cả bảng rồi Insert → Pie Chart, sau đó bật nhãn phần trăm: Chart Elements → Data Labels → More Options → Percentage. Trong Number, chọn 1 chữ số thập phân để đọc 33.6% thay vì số đã làm tròn thành 34%.</div>
 
   <div class="activity">
     <h3>Thử thách 3</h3>
     <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task3">
-      <div class="task"><div class="q"><b>Có bao nhiêu nhóm khác nhau trong cột Mạng xã hội</b><span class="hintFx">Đếm số lát trên biểu đồ tròn của em</span></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn TikTok</b><span class="hintFx">Số bạn chọn TikTok chia cho tổng số bạn trả lời câu hỏi đó</span></div><input data-ans="33.6" data-tol="0.6" data-ans2="0.336" data-tol2="0.006" placeholder="ví dụ: 33.6"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn Không dùng</b><span class="hintFx">Cùng cách tính, đổi điều kiện thành "Không dùng"</span></div><input data-ans="5.7" data-tol="0.4" data-ans2="0.057" data-tol2="0.004" placeholder="ví dụ: 5.7"></div>
+      <div class="task"><div class="q"><b>Có bao nhiêu nhóm khác nhau trong cột Mạng xã hội</b></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn TikTok</b></div><input data-ans="33.6" data-tol="0.6" data-ans2="0.336" data-tol2="0.006" placeholder="ví dụ: 33.6"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn Không dùng</b></div><input data-ans="5.7" data-tol="0.4" data-ans2="0.057" data-tol2="0.004" placeholder="ví dụ: 5.7"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Nhìn biểu đồ tròn vừa vẽ, lát Zalo và lát Instagram — lát nào lớn hơn?</div>
@@ -230,7 +237,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
     </div>
     <button class="hintBtn" data-hint="hint3">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint3">Tổng số bạn trả lời câu hỏi mạng xã hội không phải là 300 — hãy đếm bằng hàm đếm ô có nội dung.</div>
+    <div class="hintBox noCopy hidden" id="hint3"><div class="hintLevel hidden"><strong>Gợi ý 1:</strong> Mỗi lát biểu đồ tương ứng một hàng trong Bảng 2. Tỉ lệ của một nhóm bằng số bạn trong nhóm chia cho tổng số bạn có trả lời cột Mạng xã hội.</div><div class="hintLevel hidden"><strong>Gợi ý 2:</strong> Dùng COUNTIF để đếm từng nhãn ở cột J và COUNTA để tìm mẫu số thật. Đổi kết quả sang Percentage; không dùng 300 làm mẫu số.</div></div>
     <div class="feedback" id="fb3"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back3">← Chặng 2</button><button class="btn btnPrimary" id="action3">Kiểm tra</button></div>
   </div>
@@ -240,7 +247,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <section class="section" id="step4">
   <div class="head"><div class="badge">4</div><div><h2>Cột phân phối và biểu đồ phân tán</h2><p class="sub">Hai biểu đồ giúp em nhìn thấy tận mắt những gì đã tính bằng số ở Bài 2 và Bài 3.</p></div></div>
 
-  <div class="callout blue"><strong>Phần A — cột phân phối.</strong> Lập <strong>BẢNG 3</strong> ở sheet BangThongKe: 6 dòng, mỗi dòng một khoảng giờ ngủ, cột số đếm bằng COUNTIFS với hai điều kiện trên cột B. Sáu khoảng đã ghi sẵn trong bảng: dưới 5 · 5 đến dưới 6 · 6 đến dưới 7 · 7 đến dưới 8 · 8 đến dưới 9 · từ 9 trở lên.<br>Lập xong, bôi đen bảng rồi Insert → Column Chart.</div>
+  <div class="callout blue"><strong>Phần A — cột phân phối.</strong> Lập <strong>BẢNG 3</strong> ở sheet BangThongKe: 6 dòng, mỗi dòng một khoảng giờ ngủ. Với mỗi dòng, đếm các giá trị cột B nằm đúng trong khoảng đã ghi: dưới 5 · 5 đến dưới 6 · 6 đến dưới 7 · 7 đến dưới 8 · 8 đến dưới 9 · từ 9 trở lên.<br>Lập xong, bôi đen bảng rồi Insert → Column Chart.</div>
 
   <div class="callout warn"><strong>Phần B — phân tán: ngoại lệ duy nhất, KHÔNG cần bảng thống kê.</strong> Biểu đồ phân tán giữ nguyên từng bạn thành một dấu chấm nên không gom nhóm được. Sang sheet Clean_Data, giữ phím Ctrl để bôi đen cột C (Giờ dùng thiết bị) và cột H (Điểm TB lớp 7), rồi Insert → Scatter.</div>
 
@@ -248,9 +255,9 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     <h3>Thử thách 4</h3>
     <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task4">
-      <div class="task"><div class="q"><b>Khoảng 7 đến dưới 8 giờ có bao nhiêu bạn</b><span class="hintFx">=COUNTIFS(B3:B300;">=7";B3:B300;"<8")</span></div><input data-ans="112" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Khoảng dưới 5 giờ có bao nhiêu bạn</b><span class="hintFx">=COUNTIF(B3:B300;"<5")</span></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Khoảng từ 9 giờ trở lên có bao nhiêu bạn</b><span class="hintFx">=COUNTIF(B3:B300;">=9")</span></div><input data-ans="10" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Khoảng 7 đến dưới 8 giờ có bao nhiêu bạn</b></div><input data-ans="112" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Khoảng dưới 5 giờ có bao nhiêu bạn</b></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Khoảng từ 9 giờ trở lên có bao nhiêu bạn</b></div><input data-ans="10" data-tol="0" placeholder="kết quả"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Biểu đồ cột phân phối của em có hình dạng thế nào?</div>
@@ -264,7 +271,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
     </div>
     <button class="hintBtn" data-hint="hint4">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint4">Chấm tản rộng là chuyện bình thường — xu hướng nói về cả đám đông chứ không nói về từng bạn một.</div>
+    <div class="hintBox noCopy hidden" id="hint4"><div class="hintLevel hidden"><strong>Gợi ý 1:</strong> Với mỗi khoảng giờ ngủ, viết rõ cận dưới và cận trên. Khoảng có hai cận cần hai điều kiện cùng áp dụng trên cột B.</div><div class="hintLevel hidden"><strong>Gợi ý 2:</strong> Khoảng “7 đến dưới 8” nghĩa là ≥ 7 VÀ &lt; 8. Hai khoảng đầu và cuối chỉ cần một cận. Với biểu đồ phân tán, đọc xu hướng chung của cả đám mây điểm.</div></div>
     <div class="feedback" id="fb4"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back4">← Chặng 3</button><button class="btn btnPrimary" id="action4">Kiểm tra</button></div>
   </div>
@@ -282,8 +289,8 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     <h3>Thử thách 5</h3>
     <p class="ahint">Chặng này chỉ cần nhìn hình phía trên, không phải vẽ gì thêm.</p>
     <div class="taskGrid" id="task5">
-      <div class="task"><div class="q"><b>Có bao nhiêu trong năm thành phần bắt buộc KHÔNG đạt yêu cầu</b><span class="hintFx">Soát lần lượt: tiêu đề · tên trục ngang · tên trục đứng kèm đơn vị · cỡ mẫu n · nguồn dữ liệu</span></div><input data-ans="5" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Biểu đồ đó đã dùng bao nhiêu thủ thuật đánh lừa</b><span class="hintFx">Ba thủ thuật: cắt trục không ghi chú · bỏ bớt nhóm · hiệu ứng 3D</span></div><input data-ans="3" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Có bao nhiêu trong năm thành phần bắt buộc KHÔNG đạt yêu cầu</b></div><input data-ans="5" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Biểu đồ đó đã dùng bao nhiêu thủ thuật đánh lừa</b></div><input data-ans="3" data-tol="0" placeholder="kết quả"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Vì sao chữ “Biểu đồ” ở trên cùng vẫn không tính là có tiêu đề?</div>
@@ -297,7 +304,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
     </div>
     <button class="hintBtn" data-hint="hint5">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint5">Đếm cho kỹ: một tiêu đề không nói gì thì vẫn tính là chưa đạt.</div>
+    <div class="hintBox noCopy hidden" id="hint5"><div class="hintLevel hidden"><strong>Gợi ý 1:</strong> Lập hai danh sách kiểm: năm thành phần giúp người đọc hiểu biểu đồ, và các thủ thuật có thể làm người đọc đánh giá sai mức chênh lệch.</div><div class="hintLevel hidden"><strong>Gợi ý 2:</strong> Soát tiêu đề, hai trục kèm đơn vị, cỡ mẫu, nguồn; sau đó kiểm tra trục bị cắt, nhóm bị bỏ và hiệu ứng 3D. Tiêu đề mơ hồ vẫn tính là chưa đạt.</div></div>
     <div class="feedback" id="fb5"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back5">← Chặng 4</button><button class="btn btnPrimary" id="action5">Kiểm tra</button></div>
   </div>
@@ -375,8 +382,7 @@ function stageCheck(taskId,selIds,okMsg){
   const parts=[];
   if(!t.ok)parts.push(`${t.wrong} ô kết quả`);
   if(c.wrong)parts.push(`${c.wrong} câu chọn`);
-  const goi = t.ok ? '' : ' Gợi ý đã hiện ra dưới câu hỏi sai.';
-  return{ok:false,msg:`✗ Chỗ tô đỏ chưa đúng (${parts.join(' và ')}).${goi}`};
+  return{ok:false,msg:`✗ Chỗ tô đỏ chưa đúng (${parts.join(' và ')}). Hãy mở Gợi ý 1, thử lại, rồi mới xem Gợi ý 2 nếu vẫn cần.`};
 }
 function selOk(id){const s=document.getElementById(id);return s.value===s.dataset.key}
 function selsFilled(ids){return ids.every(i=>document.getElementById(i).value)}
@@ -408,7 +414,9 @@ document.getElementById('startBtn').onclick=()=>{
   state.student={name,cls};fb.textContent='';showStep(1);
 };
 [['back2',1],['back3',2],['back4',3],['back5',4]].forEach(([id,n])=>{const b=document.getElementById(id);if(b)b.onclick=()=>showStep(n)});
-document.querySelectorAll('.hintBtn').forEach(b=>{b.onclick=()=>{const box=document.getElementById(b.dataset.hint);box.classList.toggle('hidden');b.textContent=box.classList.contains('hidden')?'Cần gợi ý?':'Ẩn gợi ý'}});
+document.querySelectorAll('.hintBtn').forEach(b=>{const box=document.getElementById(b.dataset.hint),levels=[...box.querySelectorAll('.hintLevel')];let level=0;b.onclick=()=>{if(level===0){box.classList.remove('hidden');levels[0]?.classList.remove('hidden');level=1;b.textContent='Xem gợi ý 2'}else if(level===1){levels[1]?.classList.remove('hidden');level=2;b.textContent='Ẩn gợi ý'}else{box.classList.add('hidden');levels.forEach(x=>x.classList.add('hidden'));level=0;b.textContent='Cần gợi ý?'}}});
+document.addEventListener('copy',e=>{const s=window.getSelection(),n=s&&s.anchorNode,el=n&&(n.nodeType===1?n:n.parentElement);if(el&&el.closest('.noCopy'))e.preventDefault()});
+document.addEventListener('contextmenu',e=>{if(e.target.closest('.noCopy'))e.preventDefault()});
 
 function setStageAction(btnId,fbId,nextStep,validator){
   const btn=document.getElementById(btnId),fb=document.getElementById(fbId);
@@ -445,32 +453,34 @@ setStageAction('action5','fb5',6,()=>stageCheck('task5',['why5a','why5b','why5c'
 /* ================= NGÂN HÀNG CÂU HỎI ================= */
 const BANK=[
  {q:'Muốn vẽ biểu đồ cột từ 298 dòng dữ liệu thô thì việc đầu tiên phải làm là gì?',options:[['Lập một bảng thống kê rút gọn vài dòng','k'],['Bôi đen cả 298 dòng rồi bấm Insert','x'],['Sắp xếp lại dữ liệu theo thứ tự tăng dần','x'],['Đổi màu nền cho vùng dữ liệu cần vẽ','x']]},
- {q:'Loại biểu đồ nào KHÔNG cần lập bảng thống kê trước khi vẽ?',options:[['Biểu đồ phân tán','k'],['Biểu đồ cột','x'],['Biểu đồ tròn','x'],['Cột phân phối','x']]},
+ {type:'tf',q:'Đúng hay sai: Biểu đồ phân tán là ngoại lệ có thể vẽ trực tiếp từ hai cột dữ liệu thô.',options:[['Đúng','k'],['Sai','x']]},
  {q:'Muốn so sánh kết quả giữa các nhóm thì dùng loại biểu đồ nào?',options:[['Biểu đồ cột','k'],['Biểu đồ tròn','x'],['Biểu đồ đường','x'],['Biểu đồ phân tán','x']]},
  {q:'Muốn cho thấy một nhóm chiếm bao nhiêu phần của tổng thể thì dùng loại nào?',options:[['Biểu đồ tròn','k'],['Biểu đồ phân tán','x'],['Biểu đồ đường','x'],['Cột phân phối','x']]},
  {q:'Muốn xem các giá trị của một cột số trải ra thế nào thì dùng loại nào?',options:[['Cột phân phối','k'],['Biểu đồ tròn','x'],['Biểu đồ đường','x'],['Biểu đồ cột thường','x']]},
  {q:'Muốn xem hai biến số có đi cùng nhau không thì dùng loại nào?',options:[['Biểu đồ phân tán','k'],['Biểu đồ tròn','x'],['Cột phân phối','x'],['Biểu đồ cột thường','x']]},
  {q:'Biểu đồ đường chỉ nên dùng khi trục ngang có đặc điểm gì?',options:[['Có thứ tự thật, thường là thời gian','k'],['Có nhiều nhóm khác nhau','x'],['Chứa dữ liệu dạng chữ','x'],['Có giá trị lớn nhất ở bên phải','x']]},
  {q:'Vì sao không nên vẽ biểu đồ đường cho các nhóm phương tiện đến trường?',options:[['Vì giữa các nhóm rời rạc không có đường đi nào cả','k'],['Vì Excel không cho phép vẽ như vậy','x'],['Vì đường luôn kém chính xác hơn cột','x'],['Vì các nhóm có số lượng quá khác nhau','x']]},
- {q:'Đổi điểm bắt đầu của trục đứng từ 0 lên một số khác thì điều gì thay đổi?',options:[['Chỉ hình dạng biểu đồ, không con số nào đổi','k'],['Cả dữ liệu gốc lẫn biểu đồ đều đổi','x'],['Excel tính lại trung bình theo trục mới','x'],['Số nhóm trong biểu đồ giảm đi','x']]},
+ {type:'tf',q:'Đúng hay sai: Đổi điểm bắt đầu của trục đứng chỉ làm hình dạng biểu đồ thay đổi; số liệu gốc không đổi.',options:[['Đúng','k'],['Sai','x']]},
  {q:'Khi nào việc cắt trục là chấp nhận được?',options:[['Khi khác biệt nhỏ nhưng quan trọng, và có ghi rõ','k'],['Bất cứ khi nào muốn biểu đồ trông đẹp hơn','x'],['Khi người xem đã biết trước dữ liệu','x'],['Không bao giờ được phép cắt trục','x']]},
- {q:'Cắt trục mà không ghi chú gì thì hậu quả là gì?',options:[['Khác biệt nhỏ bị phóng thành khác biệt lớn','k'],['Biểu đồ không hiển thị được trên máy khác','x'],['Excel báo lỗi khi lưu file','x'],['Dữ liệu gốc bị thay đổi theo','x']]},
+ {type:'scenario',q:'Tình huống: Trục đứng bắt đầu ở 7 nhưng biểu đồ không ghi chú. Người xem dễ hiểu sai điều gì?',options:[['Khác biệt nhỏ trông thành rất lớn','k'],['Biểu đồ không mở được trên máy khác','x'],['Dữ liệu gốc đã bị Excel thay đổi','x'],['Số nhóm trong bảng đã bị giảm đi','x']]},
  {q:'Biểu đồ tròn phù hợp nhất khi nào?',options:[['Ít nhóm, chênh lệch rõ, các phần cộng thành một tổng','k'],['Có càng nhiều nhóm càng tốt','x'],['Khi cần so sánh hai bộ dữ liệu khác nhau','x'],['Khi dữ liệu là các con số đo được','x']]},
  {q:'Vì sao biểu đồ tròn với sáu lát trở lên thường khó đọc?',options:[['Vì mắt người so diện tích hình quạt rất kém','k'],['Vì Excel chỉ tô được năm màu khác nhau','x'],['Vì tổng các lát sẽ vượt quá 100 phần trăm','x'],['Vì lát nhỏ luôn bị Excel ẩn đi','x']]},
- {q:'Ba lát tròn lần lượt là 38, 34 và 29 phần trăm. Vấn đề ở đây là gì?',options:[['Ba lát gần bằng nhau nên mắt khó phân biệt','k'],['Tổng ba lát không đủ 100 phần trăm','x'],['Biểu đồ tròn không dùng được cho ba nhóm','x'],['Cần đổi sang biểu đồ đường ngay','x']]},
- {q:'Biểu đồ phân tán cho biết điều gì về hai biến số?',options:[['Chúng có xu hướng đi cùng nhau hay không','k'],['Cái nào là nguyên nhân của cái nào','x'],['Giá trị trung bình của từng biến','x'],['Có bao nhiêu người trong mỗi nhóm','x']]},
+ {type:'scenario',q:'Tình huống: Ba lát tròn lần lượt khoảng 38, 34 và 29 phần trăm. Khó khăn chính là gì?',options:[['Các lát gần nhau nên mắt khó so sánh','k'],['Ba phần này không thể tạo thành một tổng','x'],['Biểu đồ tròn không dùng được cho ba nhóm','x'],['Phải đổi sang biểu đồ đường mới đúng','x']]},
+ {type:'tf',q:'Đúng hay sai: Biểu đồ phân tán cho biết biến nào là nguyên nhân của biến còn lại.',options:[['Đúng','x'],['Sai','k']]},
  {q:'Đám mây chấm nghiêng xuống trong biểu đồ phân tán nghĩa là gì?',options:[['Biến này tăng thì biến kia có xu hướng giảm','k'],['Biến này chắc chắn gây ra sự giảm của biến kia','x'],['Dữ liệu đã bị nhập sai ở nhiều dòng','x'],['Hai biến hoàn toàn không liên quan','x']]},
  {q:'Trong biểu đồ phân tán, các chấm tản rất rộng quanh xu hướng nghĩa là gì?',options:[['Xu hướng đúng với đám đông nhưng không đúng với từng người','k'],['Toàn bộ xu hướng đó là sai','x'],['Cần xoá bớt các chấm nằm xa cho gọn','x'],['Phải đổi sang biểu đồ cột ngay','x']]},
  {q:'Năm thành phần bắt buộc của một biểu đồ dễ đọc gồm những gì?',options:[['Tiêu đề, nhãn hai trục, đơn vị, cỡ mẫu, nguồn dữ liệu','k'],['Màu sắc, đường viền, nền, phông chữ, khung','x'],['Tên người vẽ, ngày vẽ, phần mềm, lớp, trường','x'],['Số cột, số hàng, số màu, số nhãn, số trục','x']]},
- {q:'Một biểu đồ có tiêu đề ghi đúng một chữ Biểu đồ thì sao?',options:[['Chưa đạt, vì không cho biết nó trả lời câu hỏi gì','k'],['Đã đạt, vì đã có tiêu đề rồi','x'],['Chưa đạt, vì tiêu đề phải viết in hoa hết','x'],['Đã đạt, miễn là chữ đủ lớn','x']]},
+ {type:'scenario',q:'Tình huống: Tiêu đề của hình chỉ ghi “Biểu đồ”. Em đánh giá thế nào?',options:[['Chưa đạt vì không nêu câu hỏi cần trả lời','k'],['Đã đạt vì hình đã có một dòng tiêu đề','x'],['Chưa đạt vì tiêu đề chưa viết in hoa','x'],['Đã đạt nếu cỡ chữ đủ lớn và đậm','x']]},
  {q:'Vì sao mọi biểu đồ đều nên ghi kèm cỡ mẫu?',options:[['Để người xem biết con số dựa trên bao nhiêu người','k'],['Để biểu đồ trông chuyên nghiệp hơn','x'],['Để Excel vẽ được đúng tỉ lệ các cột','x'],['Để phân biệt biểu đồ này với biểu đồ khác','x']]},
- {q:'Bỏ bớt vài nhóm khỏi biểu đồ mà không nói gì là lỗi gì?',options:[['Chỉ giữ phần ủng hộ điều mình muốn nói','k'],['Lỗi kỹ thuật khi chọn vùng dữ liệu','x'],['Lỗi định dạng số trong bảng gốc','x'],['Không phải lỗi, vẽ gọn là tốt','x']]},
- {q:'Vì sao ba thủ thuật làm biểu đồ đánh lừa lại khó bị phát hiện?',options:[['Vì chúng không sửa một con số nào trong dữ liệu','k'],['Vì chúng chỉ dùng được trên bản Excel mới','x'],['Vì chúng làm biểu đồ có nhiều màu sắc hơn','x'],['Vì chúng chỉ đánh lừa được người chưa học Excel','x']]}
+ {type:'scenario',q:'Tình huống: Một biểu đồ bỏ vài nhóm mà không giải thích. Đây là lỗi gì?',options:[['Chọn lọc phần ủng hộ điều muốn nói','k'],['Sai định dạng số trong bảng dữ liệu','x'],['Sai công thức tính cỡ mẫu của nhóm','x'],['Không phải lỗi vì hình sẽ gọn hơn','x']]},
+ {type:'tf',q:'Đúng hay sai: Một biểu đồ vẫn có thể gây hiểu lầm dù không sửa bất kỳ con số nào.',options:[['Đúng','k'],['Sai','x']]}
 ];
 
 /* ================= BÀI KIỂM TRA ================= */
+function answerLengthBalanced(q){if(!q.options||q.options.length<=2)return true;const lens=q.options.map(([text])=>text.length),correct=q.options.findIndex(([,key])=>key==='k'),max=Math.max(...lens);return !(lens[correct]===max&&lens.filter(n=>n===max).length===1)}
+function buildQuizSet(){const chosen=[],take=(pool,n)=>shuffle(pool.filter(q=>!chosen.includes(q))).slice(0,Math.max(0,n)).forEach(q=>chosen.push(q));take(BANK.filter(q=>q.type==='tf'),2);take(BANK.filter(q=>q.type==='scenario'&&answerLengthBalanced(q)),2);take(BANK.filter(q=>q.type==='scenario'),2-chosen.filter(q=>q.type==='scenario').length);take(BANK.filter(answerLengthBalanced),10-chosen.length);take(BANK,10-chosen.length);return shuffle(chosen)}
 function startQuiz(){
-  state.quizSet=shuffle(BANK).slice(0,10);state.quizIndex=0;state.answers=[];state.quizChecked=false;
+  state.quizSet=buildQuizSet();state.quizIndex=0;state.answers=[];state.quizChecked=false;
   document.getElementById('resultArea').classList.add('hidden');
   document.getElementById('quizArea').classList.remove('hidden');
   renderQ();
@@ -479,7 +489,8 @@ function renderQ(){
   const q=state.quizSet[state.quizIndex];
   q._opts=shuffle(q.options);
   state.quizChecked=false;
-  document.getElementById('qnum').textContent=`Câu ${state.quizIndex+1}/10`;
+  const kind=q.type==='tf'?'Đúng / Sai':q.type==='scenario'?'Tình huống':'Trắc nghiệm';
+  document.getElementById('qnum').textContent=`Câu ${state.quizIndex+1}/10 · ${kind}`;
   document.getElementById('qtext').textContent=q.q;
   const body=document.getElementById('qbody');body.innerHTML='';
   const fb=document.getElementById('qfeedback');fb.className='feedback hidden';fb.innerHTML='';
