@@ -105,13 +105,17 @@ select.selWrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
 .shot{display:block;width:100%;max-width:820px;margin:14px auto 0;border:1px solid var(--line);border-radius:16px}
 footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 @media(max-width:760px){.grid2,.grid3,.formGrid,.matchGrid,.task{grid-template-columns:1fr}.section{padding:20px}}
+.resetBtn{margin-left:10px;border:1px solid var(--line);background:#fff;color:var(--muted);
+border-radius:999px;padding:3px 11px;font-family:inherit;font-size:12px;font-weight:750;cursor:pointer}
+.resetBtn:hover{border-color:var(--red);color:var(--red)}
+.savedNote{color:var(--muted);font-size:12px;font-weight:700}
 </style>
 </head>
 <body>
 <div class="top"><div class="wrap topin">
   <div class="brand"><div class="logo">▦</div><div>Trục bị cắt · Biểu đồ</div></div>
   <div class="pbar"><div class="pfill" id="pfill"></div></div>
-  <div class="pmeta"><span id="plabel">Bắt đầu</span><span id="miniStudent">Chưa nhập thông tin</span></div>
+  <div class="pmeta"><span class="savedNote" id="savedNote"></span><span id="plabel">Bắt đầu</span><span id="miniStudent">Chưa nhập thông tin</span><button id="resetBtn" class="resetBtn" type="button" title="Xoá toàn bộ bài làm đang lưu trên máy này">Xoá bài làm</button></div>
 </div></div>
 
 <main class="wrap">
@@ -195,15 +199,15 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     <h3>Thử thách 2</h3>
     <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task2">
-      <div class="task"><div class="q"><b>Giá trị của cột cao nhất</b></div><input data-ans="7.82" data-tol="0.04" placeholder="ví dụ: 7.82"></div>
-      <div class="task"><div class="q"><b>Giá trị của cột thấp nhất</b></div><input data-ans="7.14" data-tol="0.04" placeholder="ví dụ: 7.14"></div>
-      <div class="task"><div class="q"><b>Cột cao nhất hơn cột thấp nhất bao nhiêu điểm</b></div><input data-ans="0.68" data-tol="0.04" placeholder="ví dụ: 0.68"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 1, nhóm phương tiện có điểm TB lớp 7 CAO nhất được bao nhiêu điểm?</b></div><input data-ans="7.82" data-tol="0.04" placeholder="ví dụ: 7.82"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 1, nhóm phương tiện có điểm TB lớp 7 THẤP nhất được bao nhiêu điểm?</b></div><input data-ans="7.14" data-tol="0.04" placeholder="ví dụ: 7.14"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 1, nhóm cao nhất hơn nhóm thấp nhất bao nhiêu điểm?</b></div><input data-ans="0.68" data-tol="0.04" placeholder="ví dụ: 0.68"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
-      <div class="term">Sau khi đổi Minimum thành 7, điều gì đã thay đổi?</div>
+      <div class="term">Trên biểu đồ cột vừa vẽ, sau khi đổi Minimum của trục đứng từ 0 thành 7, điều gì đã thay đổi?</div>
       <select id="why2a" data-key="c"><option value="">Chọn...</option><option value="a">Điểm trung bình của các nhóm đã thay đổi</option><option value="b">Excel đã tính lại và ra kết quả khác</option><option value="c">Không con số nào đổi — chỉ có hình dạng biểu đồ trông khác hẳn</option><option value="d">Số bạn trong mỗi nhóm đã thay đổi</option></select>
 
-      <div class="term">Vậy khi nào cắt trục là chấp nhận được?</div>
+      <div class="term">Khi nào thì cắt trục đứng là chấp nhận được?</div>
       <select id="why2b" data-key="b"><option value="">Chọn...</option><option value="a">Không bao giờ — cắt trục luôn là gian dối</option><option value="b">Khi khác biệt nhỏ nhưng quan trọng, và có ghi rõ cho người xem biết</option><option value="c">Bất cứ khi nào muốn biểu đồ trông đẹp hơn</option><option value="d">Khi người xem là học sinh chứ không phải người lớn</option></select>
 
     </div>
@@ -224,15 +228,15 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     <h3>Thử thách 3</h3>
     <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task3">
-      <div class="task"><div class="q"><b>Có bao nhiêu nhóm khác nhau trong cột Mạng xã hội</b></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn TikTok</b></div><input data-ans="33.6" data-tol="0.6" data-ans2="0.336" data-tol2="0.006" placeholder="ví dụ: 33.6"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu phần trăm chọn Không dùng</b></div><input data-ans="5.7" data-tol="0.4" data-ans2="0.057" data-tol2="0.004" placeholder="ví dụ: 5.7"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 2, cột Mạng xã hội dùng nhiều nhất (cột J) có bao nhiêu nhóm khác nhau?</b></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 2, TikTok chiếm bao nhiêu phần trăm tổng số bạn?</b></div><input data-ans="33.6" data-tol="0.6" data-ans2="0.336" data-tol2="0.006" placeholder="ví dụ: 33.6"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 2, nhóm Không dùng chiếm bao nhiêu phần trăm tổng số bạn?</b></div><input data-ans="5.7" data-tol="0.4" data-ans2="0.057" data-tol2="0.004" placeholder="ví dụ: 5.7"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Nhìn biểu đồ tròn vừa vẽ, lát Zalo và lát Instagram — lát nào lớn hơn?</div>
       <select id="why3a" data-key="d"><option value="">Chọn...</option><option value="a">Zalo lớn hơn hẳn, nhìn là thấy ngay</option><option value="b">Instagram lớn hơn hẳn, nhìn là thấy ngay</option><option value="c">Hai lát bằng nhau đúng bằng nhau</option><option value="d">Rất khó nhìn ra vì hai lát gần bằng nhau — phải đọc số mới biết</option></select>
 
-      <div class="term">Vậy khi nào nên dùng biểu đồ tròn?</div>
+      <div class="term">Khi nào thì nên dùng biểu đồ tròn?</div>
       <select id="why3b" data-key="a"><option value="">Chọn...</option><option value="a">Khi các phần cộng lại thành một tổng thể, ít nhóm và chênh lệch rõ</option><option value="b">Bất cứ khi nào dữ liệu là dạng chữ</option><option value="c">Khi có càng nhiều nhóm càng tốt để biểu đồ nhiều màu</option><option value="d">Khi muốn so sánh hai bộ dữ liệu khác nhau</option></select>
 
     </div>
@@ -255,18 +259,18 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     <h3>Thử thách 4</h3>
     <p class="ahint">Lập bảng ở sheet <span class="fx">BangThongKe</span>, vẽ biểu đồ, rồi chép số từ bảng thống kê của em sang đây.</p>
     <div class="taskGrid" id="task4">
-      <div class="task"><div class="q"><b>Khoảng 7 đến dưới 8 giờ có bao nhiêu bạn</b></div><input data-ans="112" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Khoảng dưới 5 giờ có bao nhiêu bạn</b></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Khoảng từ 9 giờ trở lên có bao nhiêu bạn</b></div><input data-ans="10" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 3, khoảng 7 đến dưới 8 giờ có bao nhiêu bạn?</b></div><input data-ans="112" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 3, khoảng dưới 5 giờ có bao nhiêu bạn?</b></div><input data-ans="6" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Ở BẢNG 3, khoảng từ 9 giờ trở lên có bao nhiêu bạn?</b></div><input data-ans="10" data-tol="0" placeholder="kết quả"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Biểu đồ cột phân phối của em có hình dạng thế nào?</div>
       <select id="why4a" data-key="a"><option value="">Chọn...</option><option value="a">Cao ở giữa, thấp dần về hai đầu — hình quả chuông</option><option value="b">Cao dần đều từ trái sang phải</option><option value="c">Thấp ở giữa, cao ở hai đầu</option><option value="d">Sáu cột cao bằng nhau</option></select>
 
-      <div class="term">Đám mây chấm ở biểu đồ phân tán nghiêng về phía nào?</div>
+      <div class="term">Trên biểu đồ phân tán giữa giờ dùng thiết bị và điểm TB lớp 7, đám mây chấm nghiêng về phía nào?</div>
       <select id="why4b" data-key="b"><option value="">Chọn...</option><option value="a">Nghiêng lên: thiết bị càng nhiều thì điểm càng cao</option><option value="b">Nghiêng xuống: thiết bị càng nhiều thì điểm có xu hướng càng thấp</option><option value="c">Không nghiêng, các chấm rải đều khắp nơi</option><option value="d">Các chấm nằm gọn trên một đường thẳng</option></select>
 
-      <div class="term">Biểu đồ phân tán đó cho em kết luận được điều gì?</div>
+      <div class="term">Biểu đồ phân tán giữa giờ dùng thiết bị và điểm TB lớp 7 cho em kết luận được điều gì?</div>
       <select id="why4c" data-key="c"><option value="">Chọn...</option><option value="a">Dùng thiết bị nhiều gây ra điểm thấp</option><option value="b">Điểm thấp khiến học sinh dùng thiết bị nhiều hơn</option><option value="c">Hai biến có xu hướng đi ngược chiều nhau, nhưng chưa cho biết nguyên nhân</option><option value="d">Hai biến hoàn toàn không liên quan gì đến nhau</option></select>
 
     </div>
@@ -289,17 +293,17 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
     <h3>Thử thách 5</h3>
     <p class="ahint">Chặng này chỉ cần nhìn hình phía trên, không phải vẽ gì thêm.</p>
     <div class="taskGrid" id="task5">
-      <div class="task"><div class="q"><b>Có bao nhiêu trong năm thành phần bắt buộc KHÔNG đạt yêu cầu</b></div><input data-ans="5" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Biểu đồ đó đã dùng bao nhiêu thủ thuật đánh lừa</b></div><input data-ans="3" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Trong ảnh biểu đồ ở trên, có bao nhiêu trong năm thành phần bắt buộc KHÔNG đạt yêu cầu?</b></div><input data-ans="5" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Trong ảnh biểu đồ ở trên, người vẽ đã dùng bao nhiêu thủ thuật đánh lừa?</b></div><input data-ans="3" data-tol="0" placeholder="kết quả"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Vì sao chữ “Biểu đồ” ở trên cùng vẫn không tính là có tiêu đề?</div>
       <select id="why5a" data-key="c"><option value="">Chọn...</option><option value="a">Vì chữ đó quá nhỏ so với biểu đồ</option><option value="b">Vì tiêu đề bắt buộc phải viết in hoa toàn bộ</option><option value="c">Vì nó không cho biết biểu đồ đang trả lời câu hỏi gì</option><option value="d">Vì tiêu đề phải nằm ở phía dưới biểu đồ</option></select>
 
-      <div class="term">Biểu đồ đó chỉ hiện 3 nhóm trong khi bộ dữ liệu có 5 nhóm. Đó là lỗi gì?</div>
+      <div class="term">Biểu đồ trong ảnh chỉ hiện 3 nhóm trong khi bộ dữ liệu có 5 nhóm. Đó là lỗi gì?</div>
       <select id="why5b" data-key="b"><option value="">Chọn...</option><option value="a">Không phải lỗi, vẽ ít nhóm cho gọn cũng được</option><option value="b">Bỏ bớt nhóm — giữ lại nhóm ủng hộ điều mình muốn nói, im lặng về phần còn lại</option><option value="c">Lỗi kỹ thuật của Excel khi vẽ biểu đồ</option><option value="d">Lỗi cắt trục</option></select>
 
-      <div class="term">Điều nguy hiểm nhất của ba thủ thuật này là gì?</div>
+      <div class="term">Điều nguy hiểm nhất của ba thủ thuật làm biểu đồ đánh lừa là gì?</div>
       <select id="why5c" data-key="a"><option value="">Chọn...</option><option value="a">Chúng không sửa một con số nào trong bảng dữ liệu nên rất khó bị bắt lỗi</option><option value="b">Chúng làm Excel chạy chậm hơn bình thường</option><option value="c">Chúng khiến biểu đồ không in ra giấy được</option><option value="d">Chúng chỉ đánh lừa được người chưa học Excel</option></select>
 
     </div>
@@ -329,6 +333,60 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <script>
 /* ================= STATE ================= */
 const state={step:0,student:{name:'',cls:''},quizSet:[],quizIndex:0,answers:[],quizChecked:false,score:0,code:''};
+
+/* ================= LƯU BÀI LÀM TRÊN MÁY ================= */
+const WKEY='excelChart4StudentWork';
+const wIn=()=>[...document.querySelectorAll('.section input[data-ans]')];
+const wSel=()=>[...document.querySelectorAll('.section select[data-key]')];
+const wZone=()=>[...document.querySelectorAll('.dropzone')];
+const wBtn=()=>[...document.querySelectorAll('.section [id^="action"]')];
+const wSig=()=>wIn().length+'-'+wSel().length+'-'+wZone().length+'-'+wBtn().length;
+function saveWork(){
+  try{
+    localStorage.setItem(WKEY,JSON.stringify({
+      v:3,sig:wSig(),student:state.student,step:state.step,
+      inputs:wIn().map(i=>i.value),
+      sels:wSel().map(s=>s.value),
+      zones:wZone().map(z=>[...z.querySelectorAll('.dragCard')].map(c=>c.textContent)),
+      btns:wBtn().map(b=>({p:b.dataset.passed==='1',t:b.textContent,c:b.className}))
+    }));
+    const n=document.getElementById('savedNote');
+    if(n){n.textContent='Đã lưu trên máy này';clearTimeout(window.__sv);
+      window.__sv=setTimeout(()=>{n.textContent=''},1600)}
+  }catch(e){}
+}
+function clearWork(){
+  try{localStorage.removeItem(WKEY);localStorage.removeItem('excelChart4Student')}catch(e){}
+  location.reload();
+}
+function restoreWork(){
+  let d=null;
+  try{d=JSON.parse(localStorage.getItem(WKEY)||'null')}catch(e){}
+  if(!d||d.v!==3||d.sig!==wSig())return;
+  if(d.student&&d.student.name){
+    state.student=d.student;
+    const n=document.getElementById('studentName'),c=document.getElementById('studentClass');
+    if(n)n.value=d.student.name;
+    if(c)c.value=d.student.cls;
+  }
+  wIn().forEach((i,k)=>{if(d.inputs&&d.inputs[k])i.value=d.inputs[k]});
+  wSel().forEach((s,k)=>{if(d.sels&&d.sels[k])s.value=d.sels[k]});
+  if(d.zones)wZone().forEach((z,k)=>{(d.zones[k]||[]).forEach(t=>{
+    const card=[...document.querySelectorAll('.dragCard')].find(x=>x.textContent===t);
+    if(card)z.appendChild(card)})});
+  if(d.btns)wBtn().forEach((b,k)=>{const m=d.btns[k];
+    if(m&&m.p){b.dataset.passed='1';b.textContent=m.t;b.className=m.c}});
+  const buoc=Math.min(d.step||0,5);
+  if(buoc>0&&state.student.name)showStep(buoc);else updateProgress();
+}
+document.addEventListener('input',e=>{if(e.target.closest('.section'))saveWork()});
+document.addEventListener('change',e=>{if(e.target.closest('.section'))saveWork()});
+document.addEventListener('DOMContentLoaded',()=>{
+  const b=document.getElementById('resetBtn');
+  if(b)b.onclick=()=>{if(confirm('Xoá toàn bộ bài làm đang lưu trên máy này?\n'+
+    'Dùng khi máy này chuyển sang cho lớp khác. Đã xoá là không lấy lại được.'))clearWork()};
+});
+
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuffle=a=>{const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x};
 
@@ -403,7 +461,7 @@ function showStep(n){
   document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
   document.getElementById('step'+n).classList.add('active');
   state.step=n;updateProgress();window.scrollTo({top:0,behavior:'smooth'});
-  try{localStorage.setItem('excelChart4Student',JSON.stringify(state.student))}catch(e){}
+  saveWork();
   if(n===6)startQuiz();
 }
 document.getElementById('startBtn').onclick=()=>{
@@ -427,7 +485,7 @@ function setStageAction(btnId,fbId,nextStep,validator){
     if(r.ok){
       fb.className='feedback ok';
       fb.textContent=r.msg||'✓ Chính xác. Chặng tiếp theo đã mở.';
-      btn.dataset.passed='1';btn.textContent='Tiếp tục →';btn.className='btn btnGreen';
+      btn.dataset.passed='1';btn.textContent='Tiếp tục →';btn.className='btn btnGreen';saveWork();
     }else{
       fb.className='feedback bad';fb.textContent=r.msg;
     }
@@ -581,6 +639,6 @@ function downloadPDF(){drawCert();if(!window.jspdf){alert('Không tải được
 /* ================= KHỞI ĐỘNG ================= */
 document.querySelectorAll('#why1,#why2,#why2b,#why3,#why4,#why4b,#why5,#why5b').forEach(shuffleSelectOptions);
 try{const s=JSON.parse(localStorage.getItem('excelChart4Student')||'null');if(s&&s.name){document.getElementById('studentName').value=s.name;const sel=document.getElementById('studentClass');if([...sel.options].some(o=>o.value===s.cls)){state.student=s;sel.value=s.cls}}}catch(e){}
-updateProgress();
+updateProgress();restoreWork();
 </script>
 </body></html>
